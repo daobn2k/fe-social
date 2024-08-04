@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { localStorageUtils } from '../components/utils/local-storage-utils';
 
-const BASE_URL = 'http://34.27.84.77';
+const BASE_URL = 'http://34.27.84.77/api';
 
 export default class BaseRequest {
 	baseUrl: string;

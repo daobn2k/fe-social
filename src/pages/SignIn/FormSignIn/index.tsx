@@ -19,12 +19,12 @@ const FormSignIn = () => {
 	const navigate = useNavigate();
 
 	const onFinish = async (values: {
-		email: string;
+		userName: string;
 		password: string;
 		remember_me: boolean;
 	}) => {
 		const res: any = await runAsync({
-			email: values.email,
+			userName: values.userName,
 			password: values.password,
 		});
 
@@ -41,13 +41,10 @@ const FormSignIn = () => {
 	return (
 		<Form form={form} className={styles.root} onFinish={onFinish}>
 			<Form.Item
-				name={'email'}
-				rules={[
-					{ required: true, message: 'Vui lòng điền Email' },
-					{ pattern: REG_EMAIL, message: 'Sai email' },
-				]}
+				name={'userName'}
+				rules={[{ required: true, message: 'Vui lòng điền tài khoản' }]}
 			>
-				<InputTextField placeholder="Email" />
+				<InputTextField placeholder="Tên tài khoản" />
 			</Form.Item>
 			<Form.Item
 				name={'password'}
