@@ -17,18 +17,13 @@ const MainLayout = () => {
 	const navigate = useNavigate();
 
 	const { pathname } = useLocation();
-
 	const redirect = (path: string) => {
-		console.log(path, 'path');
-
-		navigate({
-			pathname: '/sign-in',
-		});
+		navigate(path);
 	};
 	return (
 		<div className={styles.auth}>
-			<div className={styles.header} onClick={() => navigate('/')}>
-				<div className={styles.logo}>
+			<div className={styles.header}>
+				<div className={styles.logo} onClick={() => navigate('/')}>
 					<img src="http://chatvia-light.react.themesbrand.com/static/media/logo.e41f6087382055646c1c02d0a63583d5.svg" />
 					<Text
 						type="font-20-bold"
@@ -105,10 +100,7 @@ const MainLayout = () => {
 							Trang cá nhân
 						</Text>
 					</div>
-					<div
-						className={styles.menuItem}
-						onClick={() => redirect(ROUTE_PATH.SETTINGS)}
-					>
+					<div className={styles.menuItem}>
 						<Gear size={24} weight="regular" color="#00000" />
 						<Text type="font-16-medium" color="--text-primary">
 							Cài đặt

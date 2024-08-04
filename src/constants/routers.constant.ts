@@ -1,11 +1,11 @@
 export const ROUTE_PATH = {
 	// todo
-	NEWS: '/news',
+	NEWS: '/',
 	CHAT: '/chat',
 	FRIENDS: '/friends',
 	GROUPS: '/groups',
-	SIGN_IN: '/sign-in',
-	SIGN_UP: '/sign-up',
+	SIGN_IN: '/auth/sign-in',
+	SIGN_UP: '/auth/sign-up',
 	COMPOSE: '/compose',
 	PROFILE: '/profile',
 	SETTINGS: '/settings',

@@ -8,14 +8,15 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import { AppLayout } from './AppLayout';
 import Profile from '../pages/Profile';
+import Friends from '../pages/Friends';
 
 export const router = createBrowserRouter([
 	{
-		path: '/',
 		element: <AppLayout />,
 		children: [
 			{
 				element: <AuthLayout />,
+				path: '/auth',
 				children: [
 					{
 						path: ROUTE_PATH.SIGN_IN,
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
 					{
 						path: ROUTE_PATH.PROFILE,
 						element: <Profile />,
+					},
+					{
+						path: ROUTE_PATH.FRIENDS,
+						element: <Friends />,
 					},
 				],
 			},
