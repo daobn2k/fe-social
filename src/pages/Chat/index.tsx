@@ -59,7 +59,7 @@ const News = () => {
 							className={styles.avatar}
 						/>
 						<Text type="font-14-medium" color="--text-primary">
-							Patrick Hendricks
+							Nguyễn Anh Quang
 						</Text>
 					</div>
 					<div className={styles.actions}>
@@ -96,10 +96,10 @@ const ChatItemList = () => {
 			/>
 			<div className={styles.info}>
 				<Text type="font-14-medium" color="--text-primary">
-					Patrick Hendricks
+					Nguyễn Anh Quang
 				</Text>
 				<Text type="font-12-regular" color="--text-tertiary">
-					Patrick Hendricks
+					Nguyễn Anh Quang
 				</Text>
 			</div>
 			<Text type="font-12-regular" color="--text-tertiary">

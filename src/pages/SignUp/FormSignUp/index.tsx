@@ -25,52 +25,44 @@ const FormSignUp = () => {
 		if (res?.data?.success) {
 			// localStorageUtils.set('accessToken', res?.data?.data?.accessToken)
 			// localStorageUtils.set('refreshToken', res?.data?.data?.refreshToken)
-			message.success('Sign up successfully');
+			message.success('Đăng ký thành công');
 			router(ROUTE_PATH.SIGN_IN);
 		} else {
-			message.error('Sign up failed');
+			message.error('Đăng ký thất bại');
 		}
 	};
 
 	return (
 		<Form form={form} className={styles.root} onFinish={onFinish}>
 			<Row gutter={[12, 12]}>
-				<Col xs={12}>
+				<Col xs={24}>
 					<Form.Item
-						name={'firstName'}
-						rules={[{ required: true, message: 'Please enter first name' }]}
+						name={'name'}
+						rules={[{ required: true, message: 'Vui lòng điền họ và tên' }]}
 					>
-						<InputTextField placeholder="First Name" />
-					</Form.Item>
-				</Col>
-				<Col xs={12}>
-					<Form.Item
-						name={'lastName'}
-						rules={[{ required: true, message: 'Please enter last name' }]}
-					>
-						<InputTextField placeholder="Last Name" />
+						<InputTextField placeholder="Họ và tên" />
 					</Form.Item>
 				</Col>
 			</Row>
 			<Form.Item
 				name={'email'}
 				rules={[
-					{ required: true, message: 'Please enter email' },
-					{ pattern: REG_EMAIL, message: 'Email invalid' },
+					{ required: true, message: 'Vui lòng nhập email' },
+					{ pattern: REG_EMAIL, message: 'Sai Email' },
 				]}
 			>
-				<InputTextField placeholder="Email Adress" />
+				<InputTextField placeholder="Email" />
 			</Form.Item>
 			<Form.Item
 				name={'password'}
-				rules={[{ required: true, message: 'Please enter password' }]}
+				rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
 			>
-				<InputFieldPassword placeholder="Password" />
+				<InputFieldPassword placeholder="Mật khẩu" />
 			</Form.Item>
 			<Form.Item
 				name={'re_password'}
 				rules={[
-					{ required: true, message: 'Please enter confirm password' },
+					{ required: true, message: 'Vui lòng điền mật khẩu xác nhận' },
 					({ getFieldValue }) => ({
 						validator(_, value) {
 							if (!value || getFieldValue('password') === value) {
@@ -78,15 +70,13 @@ const FormSignUp = () => {
 							}
 
 							return Promise.reject(
-								new Error(
-									'Confirmation password is not the same as the current password'
-								)
+								new Error('Mật khẩu xác nhận đang không giống với mật khẩu')
 							);
 						},
 					}),
 				]}
 			>
-				<InputFieldPassword placeholder="Confirm Password" />
+				<InputFieldPassword placeholder="Mật khẩu xác nhận" />
 			</Form.Item>
 			<div className={styles.remember}>
 				<Form.Item
@@ -95,33 +85,13 @@ const FormSignUp = () => {
 					rules={[
 						{
 							required: true,
-							message:
-								'Please agree Term of Use and Conditions of Use to register ',
+							message: 'Vui lòng tích chọn',
 						},
 					]}
 				>
 					<Checkbox>
 						<Text type="font-14-medium" color="--text-tertiary">
-							By clicking on Register, you agree to our{' '}
-							<Text
-								element="span"
-								type="font-14-medium"
-								color="--text-primary"
-								fontFamily="font-plus-jakarta"
-								className="text-cursor-pointer"
-							>
-								Terms of Use
-							</Text>{' '}
-							and{' '}
-							<Text
-								element="span"
-								type="font-14-medium"
-								color="--text-primary"
-								fontFamily="font-plus-jakarta"
-								className="text-cursor-pointer"
-							>
-								Conditions of Use
-							</Text>
+							Để đăng ký tài khoản hay chấp thuận các điều khoản
 						</Text>
 					</Checkbox>
 				</Form.Item>
@@ -147,7 +117,7 @@ const FormSignUp = () => {
 								fontFamily="font-plus-jakarta"
 								color="--text-primary-white"
 							>
-								Register
+								Đăng ký
 							</Text>
 						</Button>
 					);

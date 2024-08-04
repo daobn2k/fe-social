@@ -8,9 +8,9 @@ import Text from '../../components/Text';
 import WrapperAuth from '../../components/WrapperAuth';
 
 export default function SignIn() {
-	const { run, loading } = useRequest(serviceSignInGoogle, {
+	const { loading } = useRequest(serviceSignInGoogle, {
 		manual: true,
-		onSuccess(res) {
+		onSuccess() {
 			// if (res?.data?.success) {
 			//   localStorageUtils.set('accessToken', res?.data?.data?.accessToken)
 			//   localStorageUtils.set('refreshToken', res?.data?.data?.refreshToken)
@@ -30,7 +30,7 @@ export default function SignIn() {
 					fontFamily="font-fauces"
 					style={{ textAlign: 'center' }}
 				>
-					Sign In
+					Đăng nhập
 				</Text>
 				<FormSignIn />
 			</WrapperAuth>

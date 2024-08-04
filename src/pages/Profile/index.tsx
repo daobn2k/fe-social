@@ -1,50 +1,60 @@
-import {
-	ChatCentered,
-	MagnifyingGlass,
-	ShareFat,
-	ThumbsUp,
-} from '@phosphor-icons/react';
-import InputTextField from '../../components/InputTextField';
+import { ChatCentered, ShareFat, ThumbsUp } from '@phosphor-icons/react';
+import { Avatar, Collapse, Image } from 'antd';
 import Text from '../../components/Text';
 import styles from './index.module.scss';
-import { Button, Image } from 'antd';
-const News = () => {
+import { CollapseProps } from 'antd/lib';
+
+const Profile = () => {
+	const items: CollapseProps['items'] = [
+		{
+			key: '1',
+			label: 'Giới thiệu',
+			children: <p>Học như biển cả, càng học càng thấy rộng lớn.</p>,
+		},
+		{
+			key: '2',
+			label: 'Học vấn',
+			children: <p>Đại học công nghệ giao thông vận tải</p>,
+		},
+		{
+			key: '3',
+			label: 'Nghề nghiệp',
+			children: <p>Thực tập sinh Artemislab</p>,
+		},
+		{
+			key: '4',
+			label: 'Giới tính',
+			children: <p>Nam</p>,
+		},
+	];
+	const onChange = (key: string | string[]) => {
+		console.log(key);
+	};
 	return (
 		<div className={styles.news}>
 			<div className={styles.left}>
 				<div className={styles.top}>
 					<Text type="font-20-semi-bold" color="--text-primary">
-						Bảng tin
+						Trang cá nhân
 					</Text>
-					<InputTextField
-						placeholder="Tìm kiếm bài viết"
-						prefix={<MagnifyingGlass size={24} weight="regular" />}
-					/>
-				</div>
-				<div className={styles.bottom}>
-					<Text
-						type="font-20-medium"
-						color="--text-primary"
-						fontFamily="font-mono-sans"
-					>
-						Tin gần đây
-					</Text>
-					<div className={styles.recents}>
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
-						<ItemComment />
+					<div className={styles.info}>
+						<Avatar
+							src="http://chatvia-light.react.themesbrand.com/static/media/avatar-1.3921191a8acf79d3e907.jpg"
+							size={140}
+						/>
+						<Text type="font-16-semi-bold" color="--text-primary">
+							Nguyễn Anh Quang
+						</Text>
+						<Text type="font-14-medium" color="--text-primary">
+							04/03/2002
+						</Text>
 					</div>
-				</div>
-				<div className={styles.button}>
-					<Button>Đăng tin</Button>
+					<Collapse
+						items={items}
+						defaultActiveKey={['1']}
+						onChange={onChange}
+					/>
+					;
 				</div>
 			</div>
 			<div className={styles.right}>
@@ -73,7 +83,7 @@ const News = () => {
 	);
 };
 
-export default News;
+export default Profile;
 
 const NewItem = () => {
 	return (

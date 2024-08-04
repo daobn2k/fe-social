@@ -43,23 +43,23 @@ const FormSignIn = () => {
 			<Form.Item
 				name={'email'}
 				rules={[
-					{ required: true, message: 'Please enter your email' },
-					{ pattern: REG_EMAIL, message: 'Email invalid' },
+					{ required: true, message: 'Vui lòng điền Email' },
+					{ pattern: REG_EMAIL, message: 'Sai email' },
 				]}
 			>
 				<InputTextField placeholder="Email Adress" />
 			</Form.Item>
 			<Form.Item
 				name={'password'}
-				rules={[{ required: true, message: 'Please enter your password' }]}
+				rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
 			>
-				<InputFieldPassword placeholder="Password" />
+				<InputFieldPassword placeholder="Mật khẩu" />
 			</Form.Item>
 			<div className={styles.remember}>
 				<Form.Item name={'remember_me'} noStyle valuePropName="checked">
 					<Checkbox>
 						<Text type="font-14-medium" color="--text-tertiary">
-							Remember me
+							Ghi nhớ tài khoản
 						</Text>
 					</Checkbox>
 				</Form.Item>
@@ -69,7 +69,7 @@ const FormSignIn = () => {
 					fontFamily="font-plus-jakarta"
 					className="text-cursor-pointer"
 				>
-					Forgot password?
+					Quên mật khẩu?
 				</Text>
 			</div>
 			<Form.Item noStyle shouldUpdate>
@@ -93,7 +93,7 @@ const FormSignIn = () => {
 								fontFamily="font-plus-jakarta"
 								color="--text-primary-white"
 							>
-								Sign in
+								Đăng nhập
 							</Text>
 						</Button>
 					);
@@ -105,7 +105,7 @@ const FormSignIn = () => {
 					color="--text-secondary"
 					fontFamily="font-plus-jakarta"
 				>
-					Don’t have an account?{' '}
+					Bạn đã có tài khoản chưa?{' '}
 					<Text
 						element="span"
 						color="--text-primary"
@@ -116,7 +116,7 @@ const FormSignIn = () => {
 							navigate(ROUTE_PATH.SIGN_UP);
 						}}
 					>
-						Sign up
+						Đăng ký ngay
 					</Text>
 				</Text>
 			</div>

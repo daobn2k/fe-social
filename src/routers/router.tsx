@@ -7,6 +7,7 @@ import News from '../pages/News';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import { AppLayout } from './AppLayout';
+import Profile from '../pages/Profile';
 
 export const router = createBrowserRouter([
 	{
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
 					{
 						path: ROUTE_PATH.CHAT,
 						element: <Chat />,
+					},
+					{
+						path: ROUTE_PATH.PROFILE,
+						element: <Profile />,
 					},
 				],
 			},

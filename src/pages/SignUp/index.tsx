@@ -12,7 +12,7 @@ import Text from '../../components/Text';
 export default function SignUp() {
 	const router = useNavigate();
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { run, loading } = useRequest(serviceSignUpGoogle, {
+	const { loading } = useRequest(serviceSignUpGoogle, {
 		manual: true,
 		onSuccess(res: any) {
 			if (res?.data?.success) {
