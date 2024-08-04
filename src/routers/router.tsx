@@ -9,6 +9,7 @@ import SignUp from '../pages/SignUp';
 import { AppLayout } from './AppLayout';
 import Profile from '../pages/Profile';
 import Friends from '../pages/Friends';
+import Groups from '../pages/Groups';
 
 export const router = createBrowserRouter([
 	{
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
 					{
 						path: ROUTE_PATH.FRIENDS,
 						element: <Friends />,
+					},
+					{
+						path: ROUTE_PATH.GROUPS,
+						element: <Groups />,
 					},
 				],
 			},
