@@ -89,10 +89,7 @@ const NewItem = () => {
 	return (
 		<div className={styles.newItem}>
 			<div className={styles.head}>
-				<img
-					src="http://chatvia-light.react.themesbrand.com/static/media/avatar-2.feb0f89de58f0ef9b424.jpg"
-					className={styles.avatar}
-				/>
+				<img src="/avatar.jpg" className={styles.avatar} />
 				<div className={styles.info}>
 					<Text type="font-14-medium" color="--text-primary">
 						Nguyễn Anh Quang
@@ -164,10 +161,7 @@ const NewItem = () => {
 const ItemComment = () => {
 	return (
 		<div className={styles.chatItem}>
-			<img
-				src="http://chatvia-light.react.themesbrand.com/static/media/avatar-2.feb0f89de58f0ef9b424.jpg"
-				className={styles.avatar}
-			/>
+			<img src="/avatar.jpg" className={styles.avatar} />
 			<div className={styles.info}>
 				<Text type="font-14-medium" color="--text-primary">
 					Nguyễn Anh Quang

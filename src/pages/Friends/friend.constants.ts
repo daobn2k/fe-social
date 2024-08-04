@@ -1,72 +1,72 @@
 export const dataFake = [
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Nguyễn Văn A',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GPoEiAHgpJ3vGRwD-LdnpMmBcD4Q1EGZlg&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Trần Thị B',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPX-QcPhZOsyMJzker9Z7lFiQkHBUottrh9g&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Lê Văn C',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKl1zI3hNS5Bprhlb5oAiDNgtbKF3hHuiLeA&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Phan Thị D',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GPoEiAHgpJ3vGRwD-LdnpMmBcD4Q1EGZlg&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Hoàng Văn E',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPX-QcPhZOsyMJzker9Z7lFiQkHBUottrh9g&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Đặng Thị F',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKl1zI3hNS5Bprhlb5oAiDNgtbKF3hHuiLeA&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Bùi Văn G',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GPoEiAHgpJ3vGRwD-LdnpMmBcD4Q1EGZlg&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Vũ Thị H',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPX-QcPhZOsyMJzker9Z7lFiQkHBUottrh9g&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Ngô Văn I',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKl1zI3hNS5Bprhlb5oAiDNgtbKF3hHuiLeA&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Lưu Thị J',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GPoEiAHgpJ3vGRwD-LdnpMmBcD4Q1EGZlg&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Tô Văn K',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPX-QcPhZOsyMJzker9Z7lFiQkHBUottrh9g&s',
 	},
 	{
-		name: 'Phạm thị thu trang',
+		name: 'Cao Thị L',
 		mutual_friends: 7,
 		avatar:
 			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKl1zI3hNS5Bprhlb5oAiDNgtbKF3hHuiLeA&s',

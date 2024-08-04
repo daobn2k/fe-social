@@ -8,7 +8,7 @@ const AuthLayout = () => {
 	return (
 		<div className={styles.auth}>
 			<div className={styles.header} onClick={() => navigate('/')}>
-				<img src="http://chatvia-light.react.themesbrand.com/static/media/logo.e41f6087382055646c1c02d0a63583d5.svg" />
+				<img src="/ic-logo.svg" />
 				<Text
 					type="font-20-bold"
 					fontFamily="font-inknut-antiqua"

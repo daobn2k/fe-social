@@ -54,10 +54,7 @@ const News = () => {
 			<div className={styles.right}>
 				<div className={styles.head}>
 					<div className={styles.infoUser}>
-						<img
-							src="http://chatvia-light.react.themesbrand.com/static/media/avatar-2.feb0f89de58f0ef9b424.jpg"
-							className={styles.avatar}
-						/>
+						<img src="/avatar.jpg" className={styles.avatar} />
 						<Text type="font-14-medium" color="--text-primary">
 							Nguyễn Anh Quang
 						</Text>
@@ -90,10 +87,7 @@ export default News;
 const ChatItemList = () => {
 	return (
 		<div className={styles.chatItem}>
-			<img
-				src="http://chatvia-light.react.themesbrand.com/static/media/avatar-2.feb0f89de58f0ef9b424.jpg"
-				className={styles.avatar}
-			/>
+			<img src="/avatar.jpg" className={styles.avatar} />
 			<div className={styles.info}>
 				<Text type="font-14-medium" color="--text-primary">
 					Nguyễn Anh Quang
