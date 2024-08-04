@@ -35,7 +35,15 @@ export default function SignUp() {
 					fontFamily="font-fauces"
 					style={{ textAlign: 'center' }}
 				>
-					Create an account
+					Đăng ký tài khoản ViConnect
+				</Text>
+				<Text
+					type="font-16-medium"
+					color="--text-primary"
+					fontFamily="font-fauces"
+					style={{ textAlign: 'center' }}
+				>
+					Trang web giành cho cộng đồng người Việt kết nối và trao đổi
 				</Text>
 				<FormSignUp />
 			</WrapperAuth>

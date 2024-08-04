@@ -34,7 +34,7 @@ const FormSignIn = () => {
 			// message.success('Sign in successfully')
 			// router.push(ROUTE_PATH.COMPOSE)
 		} else {
-			message.error('Sign in failed');
+			message.error('Đăng nhập thất bại');
 		}
 	};
 
@@ -47,7 +47,7 @@ const FormSignIn = () => {
 					{ pattern: REG_EMAIL, message: 'Sai email' },
 				]}
 			>
-				<InputTextField placeholder="Email Adress" />
+				<InputTextField placeholder="Email" />
 			</Form.Item>
 			<Form.Item
 				name={'password'}

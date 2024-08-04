@@ -30,7 +30,15 @@ export default function SignIn() {
 					fontFamily="font-fauces"
 					style={{ textAlign: 'center' }}
 				>
-					Đăng nhập
+					Đăng nhập ViConnect
+				</Text>
+				<Text
+					type="font-16-medium"
+					color="--text-primary"
+					fontFamily="font-fauces"
+					style={{ textAlign: 'center' }}
+				>
+					Trang web giành cho cộng đồng người Việt kết nối và trao đổi
 				</Text>
 				<FormSignIn />
 			</WrapperAuth>
