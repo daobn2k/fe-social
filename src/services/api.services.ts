@@ -1,7 +1,7 @@
 export const API_PATH = {
 	AUTH_SIGNUP: '/Auth/login',
 	AUTH_SIGN_UP_GOOGLE: '/Auth/google',
-	AUTH_SIGN_IN: '/Auth/signin',
+	AUTH_SIGN_IN: '/Auth/login',
 	AUTH_SIGN_IN_GOOGLE: '/Auth/google',
 	AUTH_GET_ME: '/Auth/me',
 	AUTH_SESSION: '/Auth/session',
