@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+:root {
+  --font-fauces: "Fraunces";
+  --font-inknut-antiqua: "Inknut Antiqua";
+  --font-plus-jakarta: "Plus Jakarta Sans";
+  --font-fig-tree: "Figtree";
+  --font-bebas-neue: "Bebas Neue";
+  --font-mono-sans: "Mono-Sans", sans-serif;
+}
+
+.font-fauces {
+  font-family: var(--font-fauces) !important;
+}
+
+.font-inknut-antiqua {
+  font-family: var(--font-inknut-antiqua) !important;
+}
+
+.font-plus-jakarta {
+  font-family: var(--font-plus-jakarta) !important;
+}
+
+.font-fig-tree {
+  font-family: var(--font-fig-tree) !important;
+}
+
+.font-bebas-neue {
+  font-family: var(--font-bebas-neue) !important;
+}
+
+.font-mono-sans {
+  font-family: var(--font-mono-sans) !important;
+}

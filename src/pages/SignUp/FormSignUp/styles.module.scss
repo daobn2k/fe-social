@@ -1,0 +1,66 @@
+.root {
+  .remember {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px 0;
+  }
+  .btnLogin {
+    position: relative;
+    margin-top: 32px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border-radius: 8px;
+    background: var(--color-gray-900);
+    width: 100%;
+    height: auto;
+    border: none;
+    opacity: 0.5;
+    p {
+      opacity: 1;
+    }
+    &:hover {
+      box-shadow: none !important;
+      background: #0f0f0f !important;
+      opacity: 0.4;
+    }
+  }
+  .ask {
+    text-align: center;
+    padding-top: 12px;
+  }
+  .btnSpinning {
+    cursor: none;
+    p {
+      opacity: 0;
+    }
+  }
+  .spin {
+    position: absolute;
+  }
+  :global {
+    .ant-checkbox-wrapper {
+      span {
+        &:last-child {
+          padding-right: 0;
+        }
+      }
+    }
+    .ant-form-item {
+      margin-bottom: 12px;
+    }
+    .ant-form-item-explain-connected {
+      margin-top: 5px;
+      margin-bottom: 12px;
+    }
+    .ant-btn-default:disabled {
+      opacity: 0.4;
+      background: #0f0f0f !important;
+    }
+  }
+}

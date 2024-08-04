@@ -1,0 +1,21 @@
+export const API_PATH = {
+	AUTH_SIGNUP: '/Auth/signup',
+	AUTH_SIGN_UP_GOOGLE: '/Auth/google',
+	AUTH_SIGN_IN: '/Auth/signin',
+	AUTH_SIGN_IN_GOOGLE: '/Auth/google',
+	AUTH_GET_ME: '/Auth/me',
+	AUTH_SESSION: '/Auth/session',
+
+	PROMPT: '/prompt',
+	WEMAIL: '/wemail',
+	FAVORITE_PROMPT: (id: string) => `/user/favorite-prompt/${id}`,
+	USER_CHANGE_PASSWORD: '/user/password',
+	USER_SETTING: '/user/setting',
+	USER_AVATAR: '/user/avatar',
+	USER__ADDITION_INFO: '/user/addition-info',
+	USER_BASE_INFO: '/user/base-info',
+	CATEGORY: '/category',
+	USER: '/user',
+	PAYMENT_LINK: '/payment/link',
+	PAYMENT_PORTAL: '/payment/portal',
+};

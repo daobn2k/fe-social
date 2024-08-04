@@ -1,0 +1,100 @@
+.news {
+	display: flex;
+	height: 100%;
+	.left {
+		background-color: #f5f7fb;
+		flex: 0 0 380px;
+		padding: 24px;
+		.top {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+		.bottom {
+			margin-top: 24px;
+			display: flex;
+			gap: 16px;
+			flex-direction: column;
+			.chatList {
+				height: calc(100vh - 200px);
+				overflow: auto;
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+		}
+	}
+	.right {
+		height: 100vh;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		.main {
+			flex: 1;
+		}
+		.sendMessage {
+			padding: 16px;
+			display: flex;
+			gap: 16px;
+			align-items: center;
+			border-top: 1px solid #f0eff5;
+		}
+		.head {
+			padding: 16px;
+			border-bottom: 1px solid #f0eff5;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			.infoUser {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+
+				.avatar {
+					width: 36px;
+					height: 36px;
+					object-fit: contain;
+					border-radius: 999px;
+				}
+			}
+			.actions {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				.item {
+					padding: 6px;
+					border-radius: 999px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					cursor: pointer;
+
+					&:hover {
+						background-color: #e6ebf5;
+					}
+				}
+			}
+		}
+	}
+}
+
+.chatItem {
+	padding: 16px;
+	display: flex;
+	gap: 16px;
+	background-color: #e6ebf5;
+	border-radius: 8px;
+	.avatar {
+		width: 36px;
+		height: 36px;
+		object-fit: contain;
+		border-radius: 999px;
+	}
+	.info {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		flex: 1;
+	}
+}
