@@ -4,14 +4,13 @@ import { useRequest } from 'ahooks';
 import { Button, Checkbox, Form, Spin, message } from 'antd';
 import clsx from 'clsx';
 import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import InputFieldPassword from '../../../components/InputFieldPassword';
 import InputTextField from '../../../components/InputTextField';
-import { REG_EMAIL } from '../../../components/utils/reg';
-import { serviceSignIn } from '../service';
-import styles from './styles.module.scss';
 import Text from '../../../components/Text';
 import { ROUTE_PATH } from '../../../constants/routers.constant';
-import { useNavigate } from 'react-router-dom';
+import { serviceSignIn } from '../service';
+import styles from './styles.module.scss';
 
 const FormSignIn = () => {
 	const { runAsync, loading } = useRequest(serviceSignIn, { manual: true });

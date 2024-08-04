@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Spin } from 'antd';
 import Text from '../../components/Text';
 import WrapperAuth from '../../components/WrapperAuth';
 import FormSignIn from './FormSignIn';
