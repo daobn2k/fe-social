@@ -11,8 +11,12 @@ import Text from '../../../components/Text';
 import { ROUTE_PATH } from '../../../constants/routers.constant';
 import { serviceSignIn } from '../service';
 import styles from './styles.module.scss';
+import { localStorageUtils } from '../../../components/utils/local-storage-utils';
+import { useAtom } from 'jotai';
+import { atomUser } from '../../../store/user.store';
 
 const FormSignIn = () => {
+	const [, setUser] = useAtom(atomUser);
 	const { runAsync, loading } = useRequest(serviceSignIn, { manual: true });
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
@@ -27,13 +31,15 @@ const FormSignIn = () => {
 			password: values.password,
 		});
 
-		if (res?.data?.success) {
-			// localStorageUtils.set('accessToken', res?.data?.data?.accessToken)
-			// localStorageUtils.set('refreshToken', res?.data?.data?.refreshToken)
-			// message.success('Sign in successfully')
-			// router.push(ROUTE_PATH.COMPOSE)
+		if (res?.data?.code > 0) {
+			localStorageUtils.set('accessToken', res?.data?.source?.accessToken);
+			localStorageUtils.set('user', res?.data?.source);
+			setUser(res?.data?.source);
+
+			message.success('Đăng nhập thành công');
+			navigate(ROUTE_PATH.NEWS);
 		} else {
-			message.error('Đăng nhập thất bại');
+			message.error(res?.data?.message);
 		}
 	};
 

@@ -1,24 +1,24 @@
 .auth {
-  width: 100%;
-  height: 100vh;
-  background-color: var(--background-surface);
-  .header {
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    padding: 24px;
-    gap: 8px;
-    cursor: pointer;
-    img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-    }
-  }
-  @media screen and (max-width: 768px) {
-    background-color: white;
-    .header {
-      padding: 32px 16px;
-    }
-  }
+	width: 100%;
+	height: 100vh;
+	background-color: var(--background-surface);
+	.header {
+		width: fit-content;
+		display: flex;
+		align-items: center;
+		padding: 24px;
+		gap: 8px;
+		cursor: pointer;
+		img {
+			width: 40px;
+			height: 40px;
+			object-fit: contain;
+		}
+	}
+	@media screen and (max-width: 768px) {
+		background-color: white;
+		.header {
+			padding: 32px 16px;
+		}
+	}
 }

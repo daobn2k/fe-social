@@ -9,50 +9,96 @@ import styles from './styles.module.scss';
 import { ROUTE_PATH } from '../../../constants/routers.constant';
 import { useNavigate } from 'react-router-dom';
 import InputTextField from '../../../components/InputTextField';
-import { REG_EMAIL } from '../../../components/utils/reg';
+import { REG_EMAIL, REG_PHONE } from '../../../components/utils/reg';
 import InputFieldPassword from '../../../components/InputFieldPassword';
 import Text from '../../../components/Text';
+import { serviceSignIn } from '../../SignIn/service';
+import { localStorageUtils } from '../../../components/utils/local-storage-utils';
+import { atomUser } from '../../../store/user.store';
+import { useAtom } from 'jotai';
 
 const FormSignUp = () => {
+	const router = useNavigate();
+	const [, setUser] = useAtom(atomUser);
 	const { runAsync, loading } = useRequest(serviceSignUp, { manual: true });
+	const { run: onSignIn, loading: loadingSignIn } = useRequest(serviceSignIn, {
+		manual: true,
+
+		onSuccess(res) {
+			localStorageUtils.set('accessToken', res?.data?.source?.accessToken);
+			localStorageUtils.set('user', res?.data?.source);
+			setUser(res?.data?.source);
+			router(ROUTE_PATH.NEWS);
+		},
+	});
 
 	const [form] = Form.useForm();
-	const router = useNavigate();
 
 	const onFinish = async (values: ISignUp) => {
-		const res: any = await runAsync(values);
+		const res: any = await runAsync({
+			...values,
+			avatar: '',
+			role: 'user',
+			createdAt: '',
+		});
+		if (res?.data?.code > 0) {
+			onSignIn({
+				userName: values.userName,
+				password: values.password,
+			});
 
-		if (res?.data?.success) {
-			// localStorageUtils.set('accessToken', res?.data?.data?.accessToken)
-			// localStorageUtils.set('refreshToken', res?.data?.data?.refreshToken)
-			message.success('Đăng ký thành công');
-			router(ROUTE_PATH.SIGN_IN);
+			message.success(res?.data?.message);
 		} else {
-			message.error('Đăng ký thất bại');
+			message.error(res?.data?.message);
 		}
 	};
 
 	return (
 		<Form form={form} className={styles.root} onFinish={onFinish}>
 			<Row gutter={[12, 12]}>
-				<Col xs={24}>
+				<Col xs={12}>
 					<Form.Item
-						name={'name'}
+						name={'userName'}
+						rules={[{ required: true, message: 'Vui lòng điền tên tài khoản' }]}
+					>
+						<InputTextField placeholder="Tên tài khoản" />
+					</Form.Item>
+				</Col>
+				<Col xs={12}>
+					<Form.Item
+						name={'displayName'}
 						rules={[{ required: true, message: 'Vui lòng điền họ và tên' }]}
 					>
 						<InputTextField placeholder="Họ và tên" />
 					</Form.Item>
 				</Col>
+				<Col xs={12}>
+					<Form.Item
+						name={'email'}
+						rules={[
+							{ required: true, message: 'Vui lòng nhập email' },
+							{ pattern: REG_EMAIL, message: 'Sai Email' },
+						]}
+					>
+						<InputTextField placeholder="Email" />
+					</Form.Item>
+				</Col>
+				<Col xs={12}>
+					<Form.Item
+						name={'phoneNumber'}
+						rules={[
+							{ required: true, message: 'Vui lòng nhập số điên thoại' },
+							{
+								pattern: REG_PHONE,
+								message: 'Không phải định dạng số điện thoại',
+							},
+						]}
+					>
+						<InputTextField placeholder="Số diện thoại" />
+					</Form.Item>
+				</Col>
 			</Row>
-			<Form.Item
-				name={'email'}
-				rules={[
-					{ required: true, message: 'Vui lòng nhập email' },
-					{ pattern: REG_EMAIL, message: 'Sai Email' },
-				]}
-			>
-				<InputTextField placeholder="Email" />
-			</Form.Item>
+
 			<Form.Item
 				name={'password'}
 				rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
@@ -101,11 +147,11 @@ const FormSignUp = () => {
 					return (
 						<Button
 							className={clsx(styles.btnLogin, {
-								[styles.btnSpinning]: loading,
+								[styles.btnSpinning]: loading || loadingSignIn,
 							})}
 							htmlType="submit"
 						>
-							{loading && (
+							{(loading || loadingSignIn) && (
 								<Spin
 									indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
 									className={styles.spin}

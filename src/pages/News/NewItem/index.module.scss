@@ -1,50 +1,3 @@
-.news {
-	display: flex;
-	height: 100%;
-	.left {
-		background-color: #f5f7fb;
-		flex: 0 0 380px;
-		padding: 24px;
-		display: flex;
-		flex-direction: column;
-		padding-bottom: 16px;
-		.top {
-			display: flex;
-			flex-direction: column;
-			gap: 16px;
-		}
-		.bottom {
-			margin-top: 24px;
-			display: flex;
-			gap: 16px;
-			flex-direction: column;
-			flex: 1;
-			.recents {
-				height: calc(100vh - 270px);
-				overflow: auto;
-				display: flex;
-				flex-direction: column;
-				gap: 8px;
-			}
-		}
-		.button {
-			width: 100%;
-			button {
-				width: 100%;
-			}
-		}
-	}
-	.right {
-		overflow: auto;
-		height: 100vh;
-		padding: 24px;
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 32px;
-	}
-}
-
 .newItem {
 	padding: 8px 0;
 	width: 100%;
@@ -59,11 +12,19 @@
 
 		display: flex;
 		gap: 8px;
+		position: relative;
 
 		.avatar {
 			width: 36px;
 			height: 36px;
 			border-radius: 99px;
+		}
+
+		.removeIcon {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+			cursor: pointer;
 		}
 	}
 

@@ -1,21 +1,18 @@
 export const API_PATH = {
-	AUTH_SIGNUP: '/Auth/login',
+	AUTH_SIGNUP: '/UserProfile/addnew',
 	AUTH_SIGN_UP_GOOGLE: '/Auth/google',
 	AUTH_SIGN_IN: '/Auth/login',
 	AUTH_SIGN_IN_GOOGLE: '/Auth/google',
 	AUTH_GET_ME: '/Auth/me',
 	AUTH_SESSION: '/Auth/session',
 
-	PROMPT: '/prompt',
-	WEMAIL: '/wemail',
-	FAVORITE_PROMPT: (id: string) => `/user/favorite-prompt/${id}`,
-	USER_CHANGE_PASSWORD: '/user/password',
-	USER_SETTING: '/user/setting',
-	USER_AVATAR: '/user/avatar',
-	USER__ADDITION_INFO: '/user/addition-info',
-	USER_BASE_INFO: '/user/base-info',
-	CATEGORY: '/category',
-	USER: '/user',
-	PAYMENT_LINK: '/payment/link',
-	PAYMENT_PORTAL: '/payment/portal',
+	ADD_POST: '/Post/AddNewPostOnNewFeed',
+	SEARCH_POST: '/Post/SearchOption',
+
+	ADD_GROUP: '/SocialGroup/CreateGroup',
+	SEARCH_GROUP: '/SocialGroup/SearchOption',
+
+	CREATE_COMMENT: '/Comment/CreateComment',
+	EDIT_COMMENT: (id: number) => '/Comment/EditComment/' + id,
+	DELETE_COMMENT: (id: number) => '/Comment/DeleteComment/' + id,
 };

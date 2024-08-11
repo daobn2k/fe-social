@@ -2,10 +2,14 @@ import { API_PATH } from '../../services/api.services';
 import BaseRequest from '../../services/BaseRequest';
 
 export interface ISignUp {
-	firstName: string;
-	lastName: string;
+	displayName: string;
+	userName: string;
 	email: string;
 	password: string;
+	phoneNumber: string;
+	avatar: string;
+	role: string;
+	createdAt: string;
 }
 
 export const serviceSignUp = (data: ISignUp) => {
