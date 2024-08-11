@@ -22,6 +22,7 @@ export interface ISearchPost {
 	userPosting?: number;
 	description?: string;
 	idUser?: number;
+	idGroup?: number;
 }
 
 export const addPost = (data: ICreatePost) => {

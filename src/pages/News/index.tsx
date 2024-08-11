@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import { useDebounceFn, useMount, useRequest } from 'ahooks';
-import { Button, Spin } from 'antd';
+import { Button, Empty, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import InputTextField from '../../components/InputTextField';
@@ -12,6 +12,7 @@ import NewItem from './NewItem';
 import { searchPost } from './service';
 import { useAtomValue } from 'jotai';
 import { atomUser } from '../../store/user.store';
+import clsx from 'clsx';
 const News = () => {
 	const user = useAtomValue(atomUser);
 	const { data, loading, mutate, run } = useRequest(searchPost);
@@ -85,6 +86,7 @@ const News = () => {
 										title={n.displayName}
 										content={n.description}
 										key={'related' + key}
+										ellipse
 									/>
 								);
 							})}
@@ -97,9 +99,9 @@ const News = () => {
 				</div>
 			</div>
 			<div className={styles.right}>
-				{loading ? (
-					<Spin />
-				) : (
+				{loading && <Spin />}
+				{!loading &&
+					news.length > 0 &&
 					news.map((n: any, key: number) => {
 						return (
 							<NewItem
@@ -109,7 +111,9 @@ const News = () => {
 								loadingRefresh={loadingRefresh}
 							/>
 						);
-					})
+					})}
+				{!loading && (
+					<Empty description="Hãy đăng tin để mọi người tương tác với bạn" />
 				)}
 			</div>
 		</div>
@@ -122,10 +126,12 @@ export const ItemComment = ({
 	title,
 	content,
 	date,
+	ellipse,
 }: {
 	title?: string;
 	content?: string;
 	date?: string;
+	ellipse?: boolean;
 }) => {
 	return (
 		<div className={styles.chatItem}>
@@ -135,7 +141,9 @@ export const ItemComment = ({
 					{title}
 				</Text>
 				<div
-					className={styles.richTextComment}
+					className={clsx(styles.richTextComment, {
+						['text-ellipse']: ellipse,
+					})}
 					dangerouslySetInnerHTML={{
 						__html: content || '',
 					}}

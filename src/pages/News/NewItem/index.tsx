@@ -74,7 +74,7 @@ const NewItem = ({
 						{displayName}
 					</Text>
 					<Text type="font-12-regular" color="--text-tertiary">
-						{dayjs(createDate).add(7, 'hour').format('HH:mm')}
+						{dayjs(createDate).format('HH:mm')}
 					</Text>
 				</div>
 
@@ -167,6 +167,7 @@ const NewItem = ({
 							content={comment.description}
 							date={comment.createdDate}
 							key={key + 'commented'}
+							ellipse
 						/>
 					);
 				})}

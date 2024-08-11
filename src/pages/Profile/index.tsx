@@ -118,7 +118,8 @@ const Profile = () => {
 			</div>
 			<div className={styles.right}>
 				{loading && <Spin />}
-				{!loading && news.length > 0 ? (
+				{!loading &&
+					news.length > 0 &&
 					news.map((n: any, key: number) => {
 						return (
 							<NewItem
@@ -128,8 +129,8 @@ const Profile = () => {
 								loadingRefresh={loadingRefresh}
 							/>
 						);
-					})
-				) : (
+					})}
+				{!loading && (
 					<Empty description="Hãy đăng tin để mọi người tương tác với bạn" />
 				)}
 			</div>

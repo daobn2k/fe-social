@@ -173,3 +173,15 @@ a {
 	flex: 0 0 20%;
 	max-width: 20%;
 }
+
+.ant-image-preview-img {
+	object-fit: contain;
+}
+
+.text-ellipse {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

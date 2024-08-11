@@ -76,7 +76,7 @@ export default function ModalAddGroup({
 				{children}
 			</div>
 			<Modal
-				title="Tin mới"
+				title="Tạo nhóm mới"
 				open={isModalOpen}
 				className={styles.modal}
 				footer={false}
@@ -121,7 +121,7 @@ export default function ModalAddGroup({
 								disabled={loading || loadingImages}
 								loading={loading || loadingImages}
 							>
-								Tạo tin
+								Tạo nhóm
 							</Button>
 						</Form.Item>
 					</div>

@@ -21,6 +21,7 @@ export interface ISearchGroup {
 	pTotalRecordInPage?: number;
 	pBeginRecord?: number;
 	groupName?: string;
+	idCreatedUser?: number;
 }
 
 export const addGroup = (data: ICreateGroup) => {
