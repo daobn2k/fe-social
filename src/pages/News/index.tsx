@@ -13,6 +13,8 @@ import styles from './index.module.scss';
 import ModalAddNews from './ModalAddNews/ModalAddNews';
 import NewItem from './NewItem';
 import { searchPost } from './service';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '../../constants/routers.constant';
 const News = () => {
 	const user = useAtomValue(atomUser);
 	const { data, loading, mutate, run } = useRequest(searchPost);
@@ -77,7 +79,7 @@ const News = () => {
 						color="--text-primary"
 						fontFamily="font-mono-sans"
 					>
-						Tin gần đây
+						Tin đăng gần đây
 					</Text>
 					<div className={styles.recents}>
 						{loadingRelated && <Spin />}
@@ -87,6 +89,8 @@ const News = () => {
 									<ItemComment
 										title={n.displayName}
 										content={n.description}
+										avatar={n.avatar}
+										idUser={n.idUser}
 										key={'related' + key}
 										ellipse
 									/>
@@ -126,17 +130,38 @@ export const ItemComment = ({
 	content,
 	date,
 	ellipse,
+	avatar,
+	idUser,
 }: {
 	title?: string;
 	content?: string;
 	date?: string;
 	ellipse?: boolean;
+	avatar?: string;
+	idUser?: any;
 }) => {
+	const navigate = useNavigate();
+	const goProfile = () => {
+		navigate({
+			pathname: ROUTE_PATH.PROFILE,
+			search: `?${createSearchParams({
+				userId: String(idUser),
+			})}`,
+		});
+	};
 	return (
 		<div className={styles.chatItem}>
-			<img src="/avatar.jpg" className={styles.avatar} />
+			<img
+				src={avatar ? avatar : '/avatar.jpg'}
+				className={styles.avatar}
+				onClick={() => goProfile()}
+			/>
 			<div className={styles.info}>
-				<Text type="font-14-medium" color="--text-primary">
+				<Text
+					type="font-14-medium"
+					color="--text-primary"
+					onClick={() => goProfile()}
+				>
 					{title}
 				</Text>
 				<div

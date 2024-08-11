@@ -1,18 +1,45 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMount, useRequest } from 'ahooks';
-import { Avatar, Button, Collapse, Spin } from 'antd';
+import { useRequest } from 'ahooks';
+import { Avatar, Button, Collapse, message, Spin } from 'antd';
 import { CollapseProps } from 'antd/lib';
-import { useAtomValue } from 'jotai';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Text from '../../components/Text';
-import { atomUser } from '../../store/user.store';
+import { createZoomChat, getProfile, getZoomChatById } from '../Chat/service';
 import ModalAddNews from '../News/ModalAddNews/ModalAddNews';
 import NewItem from '../News/NewItem';
 import { searchPost } from '../News/service';
 import styles from './index.module.scss';
+import { useAtomValue } from 'jotai';
+import { atomUser } from '../../store/user.store';
+import { ROUTE_PATH } from '../../constants/routers.constant';
 
 const Profile = () => {
-	const user = useAtomValue(atomUser);
+	const navigate = useNavigate();
+	const aUser = useAtomValue(atomUser);
+	const [params] = useSearchParams();
+
+	const userId = params.get('userId');
+
+	const { data: dataUser, run: getUserInfo } = useRequest(getProfile, {
+		manual: true,
+	});
+
+	const { runAsync: getZoomChat } = useRequest(getZoomChatById, {
+		manual: true,
+	});
+
+	useEffect(() => {
+		if (userId) {
+			getUserInfo(+userId);
+		}
+	}, [userId, getUserInfo]);
+
+	const user = useMemo(() => {
+		return dataUser?.data?.source;
+	}, [dataUser]);
+
 	const { data, loading, mutate, run } = useRequest(searchPost, {
 		manual: true,
 	});
@@ -31,30 +58,22 @@ const Profile = () => {
 		});
 	};
 
-	useMount(() => {
-		run({
-			pBeginRecord: 1,
-			pTotalRecordInPage: 1000,
-			idUser: user.id,
-		});
-	});
+	useEffect(() => {
+		if (user) {
+			run({
+				pBeginRecord: 1,
+				pTotalRecordInPage: 1000,
+				idUser: user.id,
+			});
+		}
+	}, [user, run]);
 	const items: CollapseProps['items'] = [
-		{
-			key: '1',
-			label: 'Giới thiệu',
-			children: (
-				<p>
-					{user.introduce ||
-						'Hãy viết gì đó để cho trang cá nhân của bạn trở nên thật tuyệt vời'}
-				</p>
-			),
-		},
 		{
 			key: '2',
 			label: 'Học vấn',
 			children: (
 				<p>
-					{user.education ||
+					{user?.education ||
 						'Hãy viết gì đó để cho trang cá nhân của bạn trở nên thật tuyệt vời'}
 				</p>
 			),
@@ -64,7 +83,7 @@ const Profile = () => {
 			label: 'Nghề nghiệp',
 			children: (
 				<p>
-					{user.job ||
+					{user?.job ||
 						'Hãy viết gì đó để cho trang cá nhân của bạn trở nên thật tuyệt vời'}
 				</p>
 			),
@@ -74,7 +93,7 @@ const Profile = () => {
 			label: 'Giới tính',
 			children: (
 				<p>
-					{user.sex ||
+					{user?.gender ||
 						'Hãy viết gì đó để cho trang cá nhân của bạn trở nên thật tuyệt vời'}
 				</p>
 			),
@@ -84,6 +103,37 @@ const Profile = () => {
 	const news = useMemo(() => {
 		return data?.data?.source?.datas ?? [];
 	}, [data?.data?.source?.datas]);
+
+	const onSendMessage = async () => {
+		const result: any = await getZoomChat(+aUser.id);
+
+		console.log(result?.data);
+
+		if (!result?.data?.source) return;
+		const hasChat: any = result?.data?.source.find(
+			(s: any) => s.idPartner === user.id
+		);
+
+		if (hasChat) {
+			navigate(
+				`${ROUTE_PATH.CHAT}?zoom=${hasChat.id}&user_receive=${hasChat.idPartner}`
+			);
+		} else {
+			const res = await createZoomChat({
+				idCreatedUser: aUser.id,
+				toIdUser: user.id,
+				roomName: '',
+			});
+
+			if (res?.data?.code > 0) {
+				navigate(
+					`${ROUTE_PATH.CHAT}?zoom=${res?.data?.code}&user_receive=${user.id}`
+				);
+			} else {
+				message.error('Tạo  chat thất bại ');
+			}
+		}
+	};
 	return (
 		<div className={styles.news}>
 			<div className={styles.left}>
@@ -92,12 +142,9 @@ const Profile = () => {
 						Trang cá nhân
 					</Text>
 					<div className={styles.info}>
-						<Avatar
-							src="http://chatvia-light.react.themesbrand.com/static/media/avatar-1.3921191a8acf79d3e907.jpg"
-							size={140}
-						/>
+						<Avatar src={user?.avatar} size={140} />
 						<Text type="font-16-semi-bold" color="--text-primary">
-							{user.userName}
+							{user?.userName}
 						</Text>
 						{/* <Text type="font-14-medium" color="--text-primary">
 							04/03/2002
@@ -105,7 +152,7 @@ const Profile = () => {
 					</div>
 					<Collapse
 						items={items}
-						defaultActiveKey={['1']}
+						defaultActiveKey={['2,3,4']}
 						style={{ flex: 1 }}
 					/>
 					;
@@ -113,6 +160,11 @@ const Profile = () => {
 						<ModalAddNews reload={onRefreshData}>
 							<Button>Đăng tin</Button>
 						</ModalAddNews>
+						{user?.id !== aUser.id && (
+							<Button type="primary" onClick={() => onSendMessage()}>
+								Nhắn tin
+							</Button>
+						)}
 					</div>
 				</div>
 			</div>

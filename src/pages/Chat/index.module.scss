@@ -4,6 +4,7 @@
 	.left {
 		background-color: #f5f7fb;
 		flex: 0 0 380px;
+		width: 380px;
 		padding: 24px;
 		.top {
 			display: flex;
@@ -16,7 +17,7 @@
 			gap: 16px;
 			flex-direction: column;
 			.chatList {
-				height: calc(100vh - 200px);
+				height: calc(100vh - 330px);
 				overflow: auto;
 				display: flex;
 				flex-direction: column;
@@ -31,6 +32,12 @@
 		flex-direction: column;
 		.main {
 			flex: 1;
+			display: flex;
+			flex-direction: column-reverse;
+			gap: 16px;
+			padding: 16px;
+			height: calc(100vh - 165px);
+			overflow: auto;
 		}
 		.sendMessage {
 			padding: 16px;
@@ -54,7 +61,7 @@
 				.avatar {
 					width: 36px;
 					height: 36px;
-					object-fit: contain;
+					object-fit: cover;
 					border-radius: 999px;
 				}
 			}
@@ -80,6 +87,7 @@
 }
 
 .chatItem {
+	cursor: pointer;
 	padding: 16px;
 	display: flex;
 	gap: 16px;
@@ -88,7 +96,7 @@
 	.avatar {
 		width: 36px;
 		height: 36px;
-		object-fit: contain;
+		object-fit: cover;
 		border-radius: 999px;
 	}
 	.info {
@@ -97,4 +105,18 @@
 		gap: 4px;
 		flex: 1;
 	}
+}
+
+.owner {
+	align-self: flex-end;
+	width: 50%;
+
+	background-color: unset !important;
+
+	border: 1px solid #c9c9c9;
+}
+
+.friend {
+	width: 50%;
+	background-color: #251f6e3b;
 }

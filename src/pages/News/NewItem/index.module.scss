@@ -26,6 +26,13 @@
 			right: 8px;
 			cursor: pointer;
 		}
+
+		.editIcon {
+			position: absolute;
+			top: 8px;
+			right: 40px;
+			cursor: pointer;
+		}
 	}
 
 	.previewImages {
@@ -77,12 +84,14 @@
 		height: 36px;
 		object-fit: contain;
 		border-radius: 999px;
+		cursor: pointer;
 	}
 	.info {
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
 		flex: 1;
+		cursor: pointer;
 	}
 }
 

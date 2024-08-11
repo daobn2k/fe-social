@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChatCentered, ThumbsUp, Trash } from '@phosphor-icons/react';
+import {
+	ChatCentered,
+	NotePencil,
+	ThumbsUp,
+	Trash,
+} from '@phosphor-icons/react';
 import { useRequest } from 'ahooks';
 import { Button, Image } from 'antd';
 import { useAtomValue } from 'jotai';
@@ -12,6 +17,8 @@ import Text from '../../../components/Text';
 import InputTextArea from '../../../components/InputTextArea';
 import { ItemComment } from '..';
 import dayjs from 'dayjs';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '../../../constants/routers.constant';
 
 const NewItem = ({
 	displayName,
@@ -23,7 +30,9 @@ const NewItem = ({
 	loadingRefresh,
 	idUser,
 	createDate,
+	avatar,
 }: any) => {
+	const navigate = useNavigate();
 	const likeds = localStorageUtils.get('liked') || [];
 	const [isLiked, setIsLiked] = useState(likeds.includes(id));
 	const user = useAtomValue(atomUser);
@@ -55,6 +64,15 @@ const NewItem = ({
 		ref?.focus();
 	};
 
+	const goProfile = () => {
+		navigate({
+			pathname: ROUTE_PATH.PROFILE,
+			search: `?${createSearchParams({
+				userId: String(idUser),
+			})}`,
+		});
+	};
+
 	// const onShare = () => {
 	// 	navigator.clipboard
 	// 		.writeText(link)
@@ -68,8 +86,12 @@ const NewItem = ({
 	return (
 		<div className={styles.newItem}>
 			<div className={styles.head}>
-				<img src="/avatar.jpg" className={styles.avatar} />
-				<div className={styles.info}>
+				<img
+					src={avatar ? avatar : '/avatar.jpg'}
+					className={styles.avatar}
+					onClick={() => goProfile()}
+				/>
+				<div className={styles.info} onClick={() => goProfile()}>
 					<Text type="font-14-medium" color="--text-primary">
 						{displayName}
 					</Text>
@@ -79,7 +101,10 @@ const NewItem = ({
 				</div>
 
 				{(user.role === 'admin' || user.id === idUser) && (
-					<Trash size={24} color="#df4343" className={styles.removeIcon} />
+					<>
+						<NotePencil size={24} color="#00000" className={styles.editIcon} />
+						<Trash size={24} color="#df4343" className={styles.removeIcon} />
+					</>
 				)}
 			</div>
 			<div
@@ -163,6 +188,8 @@ const NewItem = ({
 				{listComment?.map((comment: IComment, key: number) => {
 					return (
 						<ItemComment
+							idUser={comment.idUser}
+							avatar={comment.avatar}
 							title={comment?.userName}
 							content={comment.description}
 							date={comment.createdDate}

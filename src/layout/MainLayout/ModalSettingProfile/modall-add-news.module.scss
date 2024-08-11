@@ -1,0 +1,75 @@
+.head {
+	padding: 12px 0;
+
+	display: flex;
+	gap: 8px;
+
+	.avatar {
+		width: 36px;
+		height: 36px;
+		border-radius: 99px;
+	}
+}
+
+.modal {
+	:global {
+		.ant-upload-select {
+			width: 100% !important;
+			height: auto !important;
+			background-color: unset !important;
+			border: none !important;
+		}
+	}
+}
+
+.formBtn {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	button {
+		width: 100%;
+		margin-top: 12px;
+
+		padding: 8px 12px;
+		height: 40px;
+	}
+}
+
+.previewImages {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+	:global {
+		.ant-skeleton {
+			width: 140px !important;
+		}
+		.ant-skeleton-button {
+			width: 140px !important;
+			height: 140px !important;
+		}
+	}
+}
+
+.btnLogin {
+	position: relative;
+	margin-top: 32px;
+	padding: 12px 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+
+	border-radius: 8px;
+	width: 100%;
+	height: auto;
+	border: none;
+	opacity: 0.5;
+	p {
+		opacity: 1;
+	}
+	&:hover {
+		box-shadow: none !important;
+		opacity: 0.4;
+	}
+}

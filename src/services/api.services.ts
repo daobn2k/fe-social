@@ -15,4 +15,17 @@ export const API_PATH = {
 	CREATE_COMMENT: '/Comment/CreateComment',
 	EDIT_COMMENT: (id: number) => '/Comment/EditComment/' + id,
 	DELETE_COMMENT: (id: number) => '/Comment/DeleteComment/' + id,
+
+	EDIT_PROFILE: '/UserProfile/editprofile',
+
+	SEND_MESSAGE: '/Message/SendMessage',
+	CREATE_ZOOM_CHAT: '/Message/CreateRoomChat',
+	GET_MESSAGE: '/Message/GetMessageInRoom',
+
+	GET_USER_INFO: (id: number) => `/UserProfile/getbyid/${id}`,
+	GET_ZOOM_BY_CURRENT_USER: (id: number) =>
+		`/Message/GetRoomChatByCurrentUser/${id}`,
+
+	GET_LIST_USER: (id: number) =>
+		`/UserProfile/GetListUserProfileByCurrentId/${id}`,
 };

@@ -2,19 +2,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ArrowLeft, ArrowRight, MagnifyingGlass } from '@phosphor-icons/react';
 import { useRequest } from 'ahooks';
-import { Button, Empty, Spin } from 'antd';
+import { Button, Spin } from 'antd';
 import dayjs from 'dayjs';
+import { useAtomValue } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
 import InputTextField from '../../components/InputTextField';
 import Text from '../../components/Text';
+import { atomUser } from '../../store/user.store';
 import ModalAddNews from '../News/ModalAddNews/ModalAddNews';
 import NewItem from '../News/NewItem';
 import { searchPost } from '../News/service';
 import styles from './index.module.scss';
 import ModalAddGroup from './ModalAddGroup/ModalAddGroup';
 import { searchGroup } from './service';
-import { useAtomValue } from 'jotai';
-import { atomUser } from '../../store/user.store';
 const Groups = () => {
 	const user = useAtomValue(atomUser);
 	const [groupId, setGroupId] = useState<number | undefined>(undefined);

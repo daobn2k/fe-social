@@ -4,21 +4,39 @@ import {
 	Gear,
 	NewspaperClipping,
 	User,
-	UserPlus,
+	// UserPlus,
 	Users,
 } from '@phosphor-icons/react';
 import { Button } from 'antd';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import {
+	createSearchParams,
+	Outlet,
+	useLocation,
+	useNavigate,
+} from 'react-router-dom';
 import Text from '../../components/Text';
 import { ROUTE_PATH } from '../../constants/routers.constant';
 import styles from './styles.module.scss';
+import ModalSettingProfile from './ModalSettingProfile/ModalSettingProfile';
+import { useAtomValue } from 'jotai';
+import { atomUser } from '../../store/user.store';
 
 const MainLayout = () => {
+	const user = useAtomValue(atomUser);
 	const navigate = useNavigate();
 
 	const { pathname } = useLocation();
 	const redirect = (path: string) => {
-		navigate(path);
+		if (path === ROUTE_PATH.PROFILE) {
+			navigate({
+				pathname: path,
+				search: `?${createSearchParams({
+					userId: String(user.id),
+				})}`,
+			});
+		} else {
+			navigate(path);
+		}
 	};
 	return (
 		<div className={styles.auth}>
@@ -73,7 +91,7 @@ const MainLayout = () => {
 							Đoạn chat
 						</Text>
 					</div>
-					<div
+					{/* <div
 						className={styles.menuItem}
 						onClick={() => redirect(ROUTE_PATH.FRIENDS)}
 					>
@@ -81,7 +99,7 @@ const MainLayout = () => {
 						<Text type="font-16-medium" color="--text-primary">
 							Kết bạn
 						</Text>
-					</div>
+					</div> */}
 					<div
 						className={styles.menuItem}
 						onClick={() => redirect(ROUTE_PATH.GROUPS)}
@@ -100,12 +118,14 @@ const MainLayout = () => {
 							Trang cá nhân
 						</Text>
 					</div>
-					<div className={styles.menuItem}>
-						<Gear size={24} weight="regular" color="#00000" />
-						<Text type="font-16-medium" color="--text-primary">
-							Cài đặt
-						</Text>
-					</div>
+					<ModalSettingProfile>
+						<div className={styles.menuItem}>
+							<Gear size={24} weight="regular" color="#00000" />
+							<Text type="font-16-medium" color="--text-primary">
+								Cài đặt
+							</Text>
+						</div>
+					</ModalSettingProfile>
 				</div>
 				<div className={styles.profile}>
 					<Button

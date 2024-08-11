@@ -15,7 +15,7 @@ export interface User {
 	role: UserRole;
 	education: string;
 	introduce: string;
-	sex: string;
+	gender: string;
 	job: string;
 }
 export const atomUser = atom<User>({
@@ -32,6 +32,6 @@ export const atomUser = atom<User>({
 	role: 'user',
 	introduce: '',
 	education: '',
-	sex: '',
+	gender: '',
 	job: '',
 });

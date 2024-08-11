@@ -9,6 +9,7 @@ export interface IComment {
 	createdDate: string;
 	deleted: number;
 	userName: string;
+	avatar: string;
 }
 export interface ICreatePost {
 	idGroup?: number;
@@ -33,7 +34,11 @@ export const addPost = (data: ICreatePost) => {
 export const searchPost = (data: ISearchPost) => {
 	const request = new BaseRequest();
 
-	return request.post(API_PATH.SEARCH_POST, data);
+	return request.post(API_PATH.SEARCH_POST, {
+		pTotalRecordInPage: 1000,
+		pBeginRecord: 1,
+		...data,
+	});
 };
 
 export const createComment = (data: {
