@@ -61,12 +61,16 @@ export default function ModalAddNews({
 	};
 
 	const onFinish = (values: any) => {
-		run({
+		const data: any = {
 			description: values.description,
 			urlImages: imgUrls,
 			idUser: user.id,
-			idGroup: groupId,
-		});
+		};
+
+		if (groupId) {
+			data.idGroup = groupId;
+		}
+		run(data);
 	};
 
 	const onChangeFile = async ({ fileList }: any) => {

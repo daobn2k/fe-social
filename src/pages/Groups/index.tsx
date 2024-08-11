@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ArrowRight, MagnifyingGlass } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowRight, MagnifyingGlass } from '@phosphor-icons/react';
 import { useRequest } from 'ahooks';
 import { Button, Empty, Spin } from 'antd';
 import dayjs from 'dayjs';
@@ -94,9 +94,23 @@ const Groups = () => {
 		<div className={styles.news}>
 			<div className={styles.left}>
 				<div className={styles.top}>
-					<Text type="font-20-semi-bold" color="--text-primary">
-						Nhóm
-					</Text>
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+						}}
+					>
+						<Text type="font-20-semi-bold" color="--text-primary">
+							Nhóm
+						</Text>
+						<ArrowLeft
+							size={24}
+							color="#3c3434"
+							onClick={() => setGroupId(undefined)}
+						/>
+					</div>
+
 					<InputTextField
 						placeholder="Tìm kiếm nhóm"
 						prefix={<MagnifyingGlass size={24} weight="regular" />}
@@ -148,6 +162,7 @@ const Groups = () => {
 					})}
 				{loadingNews && <Spin />}
 				{!loadingNews &&
+					groupId &&
 					news.length > 0 &&
 					news.map((n: any, key: number) => {
 						return (
@@ -159,9 +174,6 @@ const Groups = () => {
 							/>
 						);
 					})}
-				{!loadingNews && (
-					<Empty description="Hãy đăng tin để mọi người tương tác với bạn" />
-				)}
 			</div>
 		</div>
 	);

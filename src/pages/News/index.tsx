@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MagnifyingGlass } from '@phosphor-icons/react';
-import { useDebounceFn, useMount, useRequest } from 'ahooks';
-import { Button, Empty, Spin } from 'antd';
+import { useDebounceFn, useRequest } from 'ahooks';
+import { Button, Spin } from 'antd';
+import clsx from 'clsx';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useAtomValue } from 'jotai';
+import { useEffect, useMemo } from 'react';
 import InputTextField from '../../components/InputTextField';
 import Text from '../../components/Text';
+import { atomUser } from '../../store/user.store';
 import styles from './index.module.scss';
 import ModalAddNews from './ModalAddNews/ModalAddNews';
 import NewItem from './NewItem';
 import { searchPost } from './service';
-import { useAtomValue } from 'jotai';
-import { atomUser } from '../../store/user.store';
-import clsx from 'clsx';
 const News = () => {
 	const user = useAtomValue(atomUser);
 	const { data, loading, mutate, run } = useRequest(searchPost);
@@ -32,13 +32,15 @@ const News = () => {
 		}
 	);
 
-	useMount(() => {
-		onGetRelated({
-			pTotalRecordInPage: 5,
-			pBeginRecord: 1,
-			idUser: user.id,
-		});
-	});
+	useEffect(() => {
+		if (user) {
+			onGetRelated({
+				pTotalRecordInPage: 5,
+				pBeginRecord: 1,
+				idUser: user.id,
+			});
+		}
+	}, [user, onGetRelated]);
 	const news = useMemo(() => {
 		return data?.data?.source?.datas ?? [];
 	}, [data?.data?.source?.datas]);
@@ -112,9 +114,6 @@ const News = () => {
 							/>
 						);
 					})}
-				{!loading && (
-					<Empty description="Hãy đăng tin để mọi người tương tác với bạn" />
-				)}
 			</div>
 		</div>
 	);

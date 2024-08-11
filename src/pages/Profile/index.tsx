@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMount, useRequest } from 'ahooks';
-import { Avatar, Button, Collapse, Empty, Spin } from 'antd';
+import { Avatar, Button, Collapse, Spin } from 'antd';
 import { CollapseProps } from 'antd/lib';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
 import Text from '../../components/Text';
 import { atomUser } from '../../store/user.store';
+import ModalAddNews from '../News/ModalAddNews/ModalAddNews';
 import NewItem from '../News/NewItem';
 import { searchPost } from '../News/service';
 import styles from './index.module.scss';
-import ModalAddNews from '../News/ModalAddNews/ModalAddNews';
 
 const Profile = () => {
 	const user = useAtomValue(atomUser);
@@ -130,9 +130,6 @@ const Profile = () => {
 							/>
 						);
 					})}
-				{!loading && (
-					<Empty description="Hãy đăng tin để mọi người tương tác với bạn" />
-				)}
 			</div>
 		</div>
 	);
