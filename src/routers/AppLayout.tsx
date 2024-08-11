@@ -1,13 +1,13 @@
 import { useMount } from 'ahooks';
+import { message } from 'antd';
 import { useAtom } from 'jotai';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { atomUser } from '../store/user.store';
 import { localStorageUtils } from '../components/utils/local-storage-utils';
 import { ROUTE_PATH } from '../constants/routers.constant';
-import { message, Spin } from 'antd';
+import { atomUser } from '../store/user.store';
 
 export const AppLayout = () => {
-	const [user, setUser] = useAtom(atomUser);
+	const [, setUser] = useAtom(atomUser);
 	const router = useNavigate();
 	useMount(() => {
 		const user = localStorageUtils.get('user');
@@ -18,9 +18,9 @@ export const AppLayout = () => {
 			router(ROUTE_PATH.SIGN_IN);
 		}
 	});
-	if (!user.id) {
-		return <Spin />;
-	}
+	// if (!user.id) {
+	// 	return <Spin />;
+	// }
 
 	return <Outlet />;
 };

@@ -108,7 +108,15 @@ const MainLayout = () => {
 					</div>
 				</div>
 				<div className={styles.profile}>
-					<Button className={styles.button}>Đăng xuất</Button>
+					<Button
+						className={styles.button}
+						onClick={() => {
+							localStorage.clear();
+							navigate(ROUTE_PATH.SIGN_IN);
+						}}
+					>
+						Đăng xuất
+					</Button>
 				</div>
 			</div>
 			<div className={styles.main}>{<Outlet />}</div>
