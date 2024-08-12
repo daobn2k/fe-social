@@ -26,6 +26,7 @@ import {
 	sendMessage,
 } from './service';
 import { ROUTE_PATH } from '../../constants/routers.constant';
+import { uniqBy } from 'lodash';
 const News = () => {
 	const navigate = useNavigate();
 	const user = useAtomValue(atomUser);
@@ -118,7 +119,10 @@ const News = () => {
 	}, [data]);
 	const zooms = useMemo(() => {
 		const newZooms =
-			dataZoom?.data?.source?.filter((z: any) => z.idPartner !== user.id) || [];
+			uniqBy(
+				dataZoom?.data?.source?.filter((z: any) => z.idPartner !== user.id),
+				'id'
+			) || [];
 
 		console.log(newZooms, 'newZooms');
 
