@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	ChatCentered,
@@ -8,7 +9,7 @@ import {
 import { useRequest } from 'ahooks';
 import { Button, Image } from 'antd';
 import { useAtomValue } from 'jotai';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import styles from './index.module.scss';
 import { localStorageUtils } from '../../../components/utils/local-storage-utils';
 import { atomUser } from '../../../store/user.store';
@@ -19,6 +20,7 @@ import { ItemComment } from '..';
 import dayjs from 'dayjs';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../../constants/routers.constant';
+import { getMediaType } from '../../../utils/common';
 
 const NewItem = ({
 	displayName,
@@ -83,6 +85,27 @@ const NewItem = ({
 	// 			console.error('Failed to copy: ', err);
 	// 		});
 	// };
+
+	const { videos, images } = useMemo(() => {
+		const videos =
+			listImage?.length > 0
+				? listImage.filter((image: any) => getMediaType(image.url) !== 'image')
+				: [];
+
+		const images =
+			listImage?.length > 0
+				? listImage.filter((image: any) => getMediaType(image.url) === 'image')
+				: [];
+		return {
+			videos,
+			images,
+		};
+	}, [listImage]);
+
+	console.log(videos, 'videos');
+
+	console.log(images, 'images');
+
 	return (
 		<div className={styles.newItem}>
 			<div className={styles.head}>
@@ -114,14 +137,24 @@ const NewItem = ({
 				}}
 			/>
 			<div className={styles.previewImages}>
+				{videos?.map((video: any, key: number) => {
+					return (
+						<video
+							src={video.url}
+							controls
+							key={key}
+							style={{ width: 300, height: 300 }}
+						/>
+					);
+				})}
 				<Image.PreviewGroup
 					preview={{
 						onChange: (current, prev) =>
 							console.log(`current index: ${current}, prev index: ${prev}`),
 					}}
 				>
-					{listImage?.length > 0 ? (
-						listImage.map((image: any, key: number) => {
+					{images?.length > 0 ? (
+						images.map((image: any, key: number) => {
 							return <Image src={image.url} key={key + 'image'} />;
 						})
 					) : (

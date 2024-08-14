@@ -28,4 +28,13 @@ export const API_PATH = {
 
 	GET_LIST_USER: (id: number) =>
 		`/UserProfile/GetListUserProfileByCurrentId/${id}`,
+
+	FRIEND_GET_LIST_FRIEND_REQUEST: (id: number) =>
+		`/Friend/GetListFriendRequest/${id}`,
+	MAKE_FRIEND: `/Friend/MakeFriend`,
+
+	APPROVE_FRIEND: (id: number) => `/Friend/ApproveFriend/${id}`,
+	REJECT_FRIEND: (id: number) => `/Friend/RejectFriend/${id}`,
+
+	USER_PROFILE_SEARCH: '/UserProfile/SearchOption',
 };

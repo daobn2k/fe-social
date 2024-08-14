@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import InputTextArea from '../../../components/InputTextArea';
 import Text from '../../../components/Text';
 import { atomUser } from '../../../store/user.store';
-import { uploadFileToFirebase } from '../../../utils/common';
+import { getMediaType, uploadFileToFirebase } from '../../../utils/common';
 import styles from './modall-add-news.module.scss';
 import { useRequest } from 'ahooks';
 import { addPost } from '../service';
@@ -81,6 +81,8 @@ export default function ModalAddNews({
 			);
 			const downloadURLs = await Promise.all(uploadPromises);
 
+			console.log(downloadURLs, 'downloadURLs');
+
 			setImgUrls(downloadURLs);
 			setLoadingImages(false);
 		} catch (error) {
@@ -93,6 +95,7 @@ export default function ModalAddNews({
 				{children}
 			</div>
 			<Modal
+				width={720}
 				title="Tin mới"
 				open={isModalOpen}
 				className={styles.modal}
@@ -189,19 +192,35 @@ const PreviewImages = ({
 				</>
 			) : (
 				<>
-					{urls.map((url, index) => (
-						<img
-							key={index}
-							src={url}
-							alt={`Preview ${index + 1}`}
-							style={{
-								width: '100px',
-								height: '100px',
-								objectFit: 'cover',
-								borderRadius: 12,
-							}}
-						/>
-					))}
+					{urls.map((url, index) => {
+						const type: any = getMediaType(url);
+
+						return type === 'video' ? (
+							<video
+								key={index}
+								src={url}
+								style={{
+									width: '300px',
+									height: '300px',
+									objectFit: 'cover',
+									borderRadius: 12,
+								}}
+								controls
+							/>
+						) : (
+							<img
+								key={index}
+								src={url}
+								alt={`Preview ${index + 1}`}
+								style={{
+									width: '300px',
+									height: '300px',
+									objectFit: 'cover',
+									borderRadius: 12,
+								}}
+							/>
+						);
+					})}
 				</>
 			)}
 		</div>

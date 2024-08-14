@@ -4,6 +4,7 @@ import {
 	Gear,
 	NewspaperClipping,
 	User,
+	UserPlus,
 	// UserPlus,
 	Users,
 } from '@phosphor-icons/react';
@@ -91,7 +92,7 @@ const MainLayout = () => {
 							Đoạn chat
 						</Text>
 					</div>
-					{/* <div
+					<div
 						className={styles.menuItem}
 						onClick={() => redirect(ROUTE_PATH.FRIENDS)}
 					>
@@ -99,7 +100,7 @@ const MainLayout = () => {
 						<Text type="font-16-medium" color="--text-primary">
 							Kết bạn
 						</Text>
-					</div> */}
+					</div>
 					<div
 						className={styles.menuItem}
 						onClick={() => redirect(ROUTE_PATH.GROUPS)}

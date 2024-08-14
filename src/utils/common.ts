@@ -33,3 +33,14 @@ export const uploadFileToFirebase = (file: any): Promise<string> => {
 		);
 	});
 };
+
+export const getMediaType = (url: any) => {
+	const extension = url && url.split('.').pop().split('?')[0].toLowerCase();
+	if (['mp4', 'mov', 'avi', 'wmv', 'flv', 'mkv'].includes(extension)) {
+		return 'video';
+	} else if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(extension)) {
+		return 'image';
+	} else {
+		return 'unknown';
+	}
+};
