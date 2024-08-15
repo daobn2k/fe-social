@@ -84,6 +84,14 @@
 			}
 		}
 	}
+	:global {
+		.ant-upload-select {
+			width: 32px !important;
+			height: 32px !important;
+			background-color: unset !important;
+			border: none !important;
+		}
+	}
 }
 
 .chatItem {
@@ -119,4 +127,18 @@
 .friend {
 	width: 50%;
 	background-color: #251f6e3b;
+}
+
+.richText {
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	word-break: break-word;
+	color: var(--text-primary);
+
+	a {
+		color: blue;
+		word-break: break-word;
+	}
 }

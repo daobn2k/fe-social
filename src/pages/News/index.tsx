@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MagnifyingGlass } from '@phosphor-icons/react';
+import { MagnifyingGlass, ThumbsUp } from '@phosphor-icons/react';
 import { useDebounceFn, useRequest } from 'ahooks';
 import { Button, Spin } from 'antd';
 import clsx from 'clsx';
@@ -12,10 +12,19 @@ import { atomUser } from '../../store/user.store';
 import styles from './index.module.scss';
 import ModalAddNews from './ModalAddNews/ModalAddNews';
 import NewItem from './NewItem';
-import { searchPost } from './service';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { likeComment, searchPost } from './service';
+import {
+	createSearchParams,
+	useNavigate,
+	useSearchParams,
+} from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routers.constant';
+import { linkifyText } from '../../utils/common';
 const News = () => {
+	const [params] = useSearchParams();
+
+	const news_id = params.get('news_id');
+
 	const user = useAtomValue(atomUser);
 	const { data, loading, mutate, run } = useRequest(searchPost);
 	const {
@@ -44,8 +53,13 @@ const News = () => {
 		}
 	}, [user, onGetRelated]);
 	const news = useMemo(() => {
+		if (news_id && data?.data?.source?.datas) {
+			return data?.data?.source?.datas.filter(
+				(d: any) => d.id === Number(news_id)
+			);
+		}
 		return data?.data?.source?.datas ?? [];
-	}, [data?.data?.source?.datas]);
+	}, [data?.data?.source?.datas, news_id]);
 	const relatedPosts = useMemo(() => {
 		return relatedPost?.data?.source?.datas ?? [];
 	}, [relatedPost?.data?.source?.datas]);
@@ -115,6 +129,7 @@ const News = () => {
 								key={key}
 								onRefreshData={onRefreshData}
 								loadingRefresh={loadingRefresh}
+								data={n}
 							/>
 						);
 					})}
@@ -132,6 +147,10 @@ export const ItemComment = ({
 	ellipse,
 	avatar,
 	idUser,
+	showLike,
+	id,
+	totalLike,
+	refresh,
 }: {
 	title?: string;
 	content?: string;
@@ -139,8 +158,19 @@ export const ItemComment = ({
 	ellipse?: boolean;
 	avatar?: string;
 	idUser?: any;
+	showLike?: any;
+	id?: number;
+	totalLike?: number;
+	refresh?: () => void;
 }) => {
 	const navigate = useNavigate();
+
+	const { run: onLikePost } = useRequest(likeComment, {
+		manual: true,
+		onSuccess() {
+			refresh && refresh();
+		},
+	});
 	const goProfile = () => {
 		navigate({
 			pathname: ROUTE_PATH.PROFILE,
@@ -149,33 +179,56 @@ export const ItemComment = ({
 			})}`,
 		});
 	};
+
+	const onLike = () => {
+		onLikePost({ id });
+	};
 	return (
-		<div className={styles.chatItem}>
-			<img
-				src={avatar ? avatar : '/avatar.jpg'}
-				className={styles.avatar}
-				onClick={() => goProfile()}
-			/>
-			<div className={styles.info}>
-				<Text
-					type="font-14-medium"
-					color="--text-primary"
+		<>
+			<div className={styles.chatItem}>
+				<img
+					src={avatar ? avatar : '/avatar.jpg'}
+					className={styles.avatar}
 					onClick={() => goProfile()}
-				>
-					{title}
-				</Text>
-				<div
-					className={clsx(styles.richTextComment, {
-						['text-ellipse']: ellipse,
-					})}
-					dangerouslySetInnerHTML={{
-						__html: content || '',
-					}}
 				/>
+				<div className={styles.info}>
+					<Text
+						type="font-14-medium"
+						color="--text-primary"
+						onClick={() => goProfile()}
+					>
+						{title}
+					</Text>
+					<div
+						className={clsx(styles.richTextComment, {
+							['text-ellipse']: ellipse,
+						})}
+						dangerouslySetInnerHTML={{
+							__html: linkifyText(content as any) || '',
+						}}
+					/>
+				</div>
+				<Text type="font-12-regular" color="--text-tertiary">
+					{dayjs(date).add(7, 'hour').format('HH:mm')}
+				</Text>
 			</div>
-			<Text type="font-12-regular" color="--text-tertiary">
-				{dayjs(date).add(7, 'hour').format('HH:mm')}
-			</Text>
-		</div>
+			{showLike && (
+				<div
+					className={styles.item}
+					onClick={() => onLike()}
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: 2,
+						cursor: 'pointer',
+					}}
+				>
+					<Text type="font-14-regular" color="--text-primary">
+						{totalLike}
+					</Text>
+					<ThumbsUp size={16} color={'blue'} weight="bold" />
+				</div>
+			)}
+		</>
 	);
 };

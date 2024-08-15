@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	DotsThree,
+	Images,
 	MagnifyingGlass,
 	PaperPlaneRight,
 	User,
 } from '@phosphor-icons/react';
 import { useRequest } from 'ahooks';
-import { Avatar, message, Spin } from 'antd';
+import { Avatar, message, Spin, Upload } from 'antd';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
@@ -26,13 +27,20 @@ import {
 	sendMessage,
 } from './service';
 import { ROUTE_PATH } from '../../constants/routers.constant';
-import { uniqBy } from 'lodash';
+import { isEmpty, uniqBy } from 'lodash';
+import {
+	getMediaType,
+	linkifyText,
+	uploadFileToFirebase,
+} from '../../utils/common';
+import { PreviewImages } from '../News/ModalAddNews/ModalAddNews';
 const News = () => {
 	const navigate = useNavigate();
 	const user = useAtomValue(atomUser);
 	const [text, setText] = useState('');
 	const [searchParams] = useSearchParams();
-
+	const [imgUrls, setImgUrls] = useState<string[]>([]);
+	const [loadingImages, setLoadingImages] = useState(false);
 	const zoom_id = searchParams.get('zoom');
 	const userReceive = searchParams.get('user_receive');
 
@@ -97,21 +105,32 @@ const News = () => {
 	}, [zoom_id]);
 
 	const onSendMessage = async () => {
-		if (!zoom_id || !userReceive || !text) {
+		if (!zoom_id || !userReceive || (!text && imgUrls.length < 0)) {
 			message.error('Nhập tin nhắn để gửi');
 			return;
 		}
-		const res = await send({
-			idUserRecieve: +userReceive,
-			idUserSend: user.id,
-			message: text,
-			idRoom: +zoom_id,
-		});
 
-		if (res?.data?.code > 0) {
-			onRefresh(+zoom_id);
-			setText('');
+		if (imgUrls.length > 0) {
+			send({
+				idUserRecieve: +userReceive,
+				idUserSend: user.id,
+				message: '',
+				idRoom: +zoom_id,
+				listUrlAttch: imgUrls,
+			});
 		}
+		if (text) {
+			send({
+				idUserRecieve: +userReceive,
+				idUserSend: user.id,
+				message: text,
+				idRoom: +zoom_id,
+			});
+		}
+
+		setText('');
+		onRefresh(+zoom_id);
+		setImgUrls([]);
 	};
 
 	const messages = useMemo(() => {
@@ -169,6 +188,23 @@ const News = () => {
 			} else {
 				message.error('Tạo  chat thất bại ');
 			}
+		}
+	};
+
+	const onChangeFile = async ({ fileList }: any) => {
+		try {
+			setLoadingImages(true);
+			const uploadPromises = fileList.map((data: any) =>
+				uploadFileToFirebase(data.originFileObj)
+			);
+			const downloadURLs = await Promise.all(uploadPromises);
+
+			console.log(downloadURLs, 'downloadURLs');
+
+			setImgUrls(downloadURLs);
+			setLoadingImages(false);
+		} catch (error) {
+			console.error('Error uploading files:', error);
 		}
 	};
 	return (
@@ -278,10 +314,12 @@ const News = () => {
 									isOwner={isOwner}
 									isFriend={isFriend}
 									data={m}
+									showUrl
 								/>
 							);
 						})}
 				</div>
+				<PreviewImages urls={imgUrls} loading={loadingImages} />
 				<div className={styles.sendMessage}>
 					<InputTextArea
 						placeholder="Nhập để nhắn tin..."
@@ -289,17 +327,30 @@ const News = () => {
 						maxLength={1000}
 						value={text}
 						onChange={(e) => setText(e.target.value)}
-						disabled={loadingSend}
+						disabled={loadingSend || loadingImages}
 					/>
 					{loadingSend ? (
 						<Spin />
 					) : (
-						<PaperPlaneRight
-							size={32}
-							weight="bold"
-							color="blue"
-							onClick={() => onSendMessage()}
-						/>
+						<>
+							<Upload
+								customRequest={() => void 0}
+								listType="picture-card"
+								multiple
+								maxCount={5}
+								onChange={onChangeFile}
+								fileList={[]}
+							>
+								<Images size={32} />
+							</Upload>
+
+							<PaperPlaneRight
+								size={32}
+								weight="bold"
+								color="blue"
+								onClick={() => onSendMessage()}
+							/>
+						</>
 					)}
 				</div>
 			</div>
@@ -314,14 +365,17 @@ const ChatItemList = ({
 	isFriend,
 	data,
 	onClick,
+	showUrl,
 }: {
 	isOwner?: boolean;
 	isFriend?: boolean;
 	data?: any;
 	onClick?: any;
+	showUrl?: boolean;
 }) => {
 	const name = isOwner ? data?.displayNameSend : data?.displayNameRecieve;
 	const avatar = isOwner ? data?.avatarUserSend : data?.avatarUserRecieve;
+	const type: any = getMediaType(data?.urlAttach);
 	return (
 		<div
 			onClick={onClick}
@@ -330,18 +384,48 @@ const ChatItemList = ({
 				[styles.friend]: isFriend,
 			})}
 		>
-			<img src={avatar ?? '/avatar.jpg'} className={styles.avatar} />
-			<div className={styles.info}>
-				<Text type="font-14-medium" color="--text-primary">
-					{name}
-				</Text>
-				<Text type="font-14-regular" color="--text-tertiary">
-					{data?.message}
-				</Text>
-			</div>
-			<Text type="font-12-regular" color="--text-tertiary">
-				{dayjs(data?.createdDate).add(7, 'hours').format('HH:mm')}
-			</Text>
+			{!isEmpty(data?.urlAttach) && showUrl ? (
+				type === 'video' ? (
+					<video
+						src={data?.urlAttach}
+						style={{
+							width: '200px',
+							height: '200px',
+							objectFit: 'cover',
+							borderRadius: 12,
+						}}
+						controls
+					/>
+				) : (
+					<img
+						src={data?.urlAttach}
+						style={{
+							width: '200px',
+							height: '200px',
+							objectFit: 'cover',
+							borderRadius: 12,
+						}}
+					/>
+				)
+			) : (
+				<>
+					<img src={avatar ?? '/avatar.jpg'} className={styles.avatar} />
+					<div className={styles.info}>
+						<Text type="font-14-medium" color="--text-primary">
+							{name}
+						</Text>
+						<div
+							className={styles.richText}
+							dangerouslySetInnerHTML={{
+								__html: linkifyText(data?.message as any) || '',
+							}}
+						/>
+					</div>
+					<Text type="font-12-regular" color="--text-tertiary">
+						{dayjs(data?.createdDate).add(7, 'hours').format('HH:mm')}
+					</Text>
+				</>
+			)}
 		</div>
 	);
 };

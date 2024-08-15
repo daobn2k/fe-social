@@ -179,6 +179,7 @@ const Profile = () => {
 								key={key}
 								onRefreshData={onRefreshData}
 								loadingRefresh={loadingRefresh}
+								data={n}
 							/>
 						);
 					})}

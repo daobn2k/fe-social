@@ -3,24 +3,30 @@
 import {
 	ChatCentered,
 	NotePencil,
+	ShareFat,
 	ThumbsUp,
 	Trash,
 } from '@phosphor-icons/react';
 import { useRequest } from 'ahooks';
-import { Button, Image } from 'antd';
+import { Button, Image, Popconfirm } from 'antd';
 import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
 import styles from './index.module.scss';
-import { localStorageUtils } from '../../../components/utils/local-storage-utils';
-import { atomUser } from '../../../store/user.store';
-import { createComment, IComment } from '../service';
-import Text from '../../../components/Text';
-import InputTextArea from '../../../components/InputTextArea';
-import { ItemComment } from '..';
+// import { localStorageUtils } from '../../../components/utils/local-storage-utils';
 import dayjs from 'dayjs';
 import { createSearchParams, useNavigate } from 'react-router-dom';
+import { ItemComment } from '..';
+import InputTextArea from '../../../components/InputTextArea';
+import Text from '../../../components/Text';
 import { ROUTE_PATH } from '../../../constants/routers.constant';
-import { getMediaType } from '../../../utils/common';
+import { atomUser } from '../../../store/user.store';
+import {
+	createFullLink,
+	getMediaType,
+	linkifyText,
+} from '../../../utils/common';
+import ModalAddNews from '../ModalAddNews/ModalAddNews';
+import { createComment, deletePost, IComment, likePost } from '../service';
 
 const NewItem = ({
 	displayName,
@@ -33,10 +39,11 @@ const NewItem = ({
 	idUser,
 	createDate,
 	avatar,
+	data,
 }: any) => {
 	const navigate = useNavigate();
-	const likeds = localStorageUtils.get('liked') || [];
-	const [isLiked, setIsLiked] = useState(likeds.includes(id));
+	// const likeds = localStorageUtils.get('liked') || [];
+	// const [isLiked, setIsLiked] = useState(likeds.includes(id));
 	const user = useAtomValue(atomUser);
 	const [textComment, setTextComment] = useState('');
 	const { run: onCreateComment, loading } = useRequest(createComment, {
@@ -46,19 +53,33 @@ const NewItem = ({
 			onRefreshData && onRefreshData();
 		},
 	});
+	const { run: onLikePost } = useRequest(likePost, {
+		manual: true,
+		onSuccess() {
+			onRefreshData && onRefreshData();
+		},
+	});
+	const { run: onDeletePost } = useRequest(deletePost, {
+		manual: true,
+		onSuccess() {
+			onRefreshData && onRefreshData();
+		},
+	});
 
 	const onLike = () => {
-		const modifyLiked = localStorageUtils.get('liked') || [];
-		if (modifyLiked.includes(id)) {
-			const newLikes = modifyLiked.filter((like: any) => like !== id);
+		// const modifyLiked = localStorageUtils.get('liked') || [];
+		// if (modifyLiked.includes(id)) {
+		// 	const newLikes = modifyLiked.filter((like: any) => like !== id);
 
-			localStorageUtils.set('liked', newLikes);
-			setIsLiked(false);
-		} else {
-			modifyLiked.push(id);
-			localStorageUtils.set('liked', modifyLiked);
-			setIsLiked(true);
-		}
+		// 	localStorageUtils.set('liked', newLikes);
+		// 	setIsLiked(false);
+		// } else {
+		// 	modifyLiked.push(id);
+		// 	localStorageUtils.set('liked', modifyLiked);
+		// 	setIsLiked(true);
+		// }
+
+		onLikePost({ id });
 	};
 	const onComment = () => {
 		const ref = document.getElementById(`text-area-${id}`);
@@ -102,10 +123,16 @@ const NewItem = ({
 		};
 	}, [listImage]);
 
-	console.log(videos, 'videos');
+	const onShare = () => {
+		createFullLink(`?news_id=${id}`);
+	};
 
-	console.log(images, 'images');
-
+	const onDelete = () => {
+		onDeletePost({
+			idPost: id,
+			idUser: idUser,
+		});
+	};
 	return (
 		<div className={styles.newItem}>
 			<div className={styles.head}>
@@ -125,15 +152,29 @@ const NewItem = ({
 
 				{(user.role === 'admin' || user.id === idUser) && (
 					<>
-						<NotePencil size={24} color="#00000" className={styles.editIcon} />
-						<Trash size={24} color="#df4343" className={styles.removeIcon} />
+						<ModalAddNews data={data} reload={onRefreshData}>
+							<NotePencil
+								size={24}
+								color="#00000"
+								className={styles.editIcon}
+							/>
+						</ModalAddNews>
+						<Popconfirm
+							title="Delete the task"
+							description="Are you sure to delete this task?"
+							onConfirm={onDelete}
+							okText="Yes"
+							cancelText="No"
+						>
+							<Trash size={24} color="#df4343" className={styles.removeIcon} />
+						</Popconfirm>
 					</>
 				)}
 			</div>
 			<div
 				className={styles.richText}
 				dangerouslySetInnerHTML={{
-					__html: description,
+					__html: linkifyText(description as any) || '',
 				}}
 			/>
 			<div className={styles.previewImages}>
@@ -164,13 +205,9 @@ const NewItem = ({
 			</div>
 			<div className={styles.reaction}>
 				<div className={styles.item} onClick={() => onLike()}>
-					<ThumbsUp
-						size={24}
-						color={isLiked ? 'blue' : '#00000'}
-						weight="bold"
-					/>
+					<ThumbsUp size={24} color={'blue'} weight="bold" />
 					<Text type="font-14-regular" color="--text-primary">
-						Thích
+						{data?.totalLike} Thích
 					</Text>
 				</div>
 				<div className={styles.item} onClick={() => onComment()}>
@@ -179,12 +216,17 @@ const NewItem = ({
 						{listComment?.length} Bình luận
 					</Text>
 				</div>
-				{/* <div className={styles.item}>
-					<ShareFat size={24} color="#00000" weight="bold" onClick={() => onShare()}/>
+				<div className={styles.item}>
+					<ShareFat
+						size={24}
+						color="#00000"
+						weight="bold"
+						onClick={() => onShare()}
+					/>
 					<Text type="font-14-regular" color="--text-primary">
 						Chia sẻ
 					</Text>
-				</div> */}
+				</div>
 			</div>
 
 			<div className={styles.listComments}>
@@ -226,8 +268,12 @@ const NewItem = ({
 							title={comment?.userName}
 							content={comment.description}
 							date={comment.createdDate}
+							totalLike={comment.totalLike}
+							id={comment?.id}
 							key={key + 'commented'}
 							ellipse
+							refresh={onRefreshData}
+							showLike
 						/>
 					);
 				})}

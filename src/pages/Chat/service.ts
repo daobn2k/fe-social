@@ -7,6 +7,8 @@ interface ISendMessage {
 	idUserSend: number;
 	idUserRecieve: number;
 	idRoom: number;
+	urlAttach?: string;
+	listUrlAttch?: string[];
 }
 
 export const createZoomChat = (data: {

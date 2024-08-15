@@ -3,22 +3,24 @@ import { Images, Smiley } from '@phosphor-icons/react';
 import { Button, Form, message, Modal, Skeleton, Upload } from 'antd';
 import EmojiPicker from 'emoji-picker-react';
 import { useAtomValue } from 'jotai';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputTextArea from '../../../components/InputTextArea';
 import Text from '../../../components/Text';
 import { atomUser } from '../../../store/user.store';
 import { getMediaType, uploadFileToFirebase } from '../../../utils/common';
 import styles from './modall-add-news.module.scss';
 import { useRequest } from 'ahooks';
-import { addPost } from '../service';
+import { addPost, editPost } from '../service';
 export default function ModalAddNews({
 	children,
 	groupId,
 	reload,
+	data,
 }: {
 	children: React.ReactNode;
 	groupId?: number;
 	reload?: any;
+	data?: any;
 }) {
 	const user = useAtomValue(atomUser);
 	const [form] = Form.useForm();
@@ -49,6 +51,18 @@ export default function ModalAddNews({
 			}
 		},
 	});
+	const { run: onEdit, loading: loadingEdit } = useRequest(editPost, {
+		manual: true,
+		onSuccess(res) {
+			if (res?.data?.code > 0) {
+				message.success('Chỉnh sửa thành công');
+				reload && reload();
+				handleCancel();
+			} else {
+				message.error('Chỉnh sửa thất bại');
+			}
+		},
+	});
 
 	const onPreviewEmoji = () => {
 		setPreviewEmoji(true);
@@ -61,16 +75,24 @@ export default function ModalAddNews({
 	};
 
 	const onFinish = (values: any) => {
-		const data: any = {
+		const d: any = {
 			description: values.description,
 			urlImages: imgUrls,
 			idUser: user.id,
 		};
 
 		if (groupId) {
-			data.idGroup = groupId;
+			d.idGroup = groupId;
 		}
-		run(data);
+
+		console.log(data, 'data?.id');
+
+		if (data?.id) {
+			d.idPost = data?.id;
+			onEdit(d);
+		} else {
+			run(d);
+		}
 	};
 
 	const onChangeFile = async ({ fileList }: any) => {
@@ -89,6 +111,16 @@ export default function ModalAddNews({
 			console.error('Error uploading files:', error);
 		}
 	};
+
+	useEffect(() => {
+		if (data) {
+			form.setFieldsValue({
+				description: data.description,
+			});
+
+			setImgUrls(data.listImage.map((img: any) => img.url));
+		}
+	}, [data]);
 	return (
 		<>
 			<div onClick={showModal} style={{ width: '100%' }}>
@@ -96,7 +128,7 @@ export default function ModalAddNews({
 			</div>
 			<Modal
 				width={720}
-				title="Tin mới"
+				title={data?.id ? 'Chỉnh sửa tin' : 'Tin mới'}
 				open={isModalOpen}
 				className={styles.modal}
 				footer={false}
@@ -152,7 +184,7 @@ export default function ModalAddNews({
 							type="primary"
 							danger
 							onClick={handleCancel}
-							disabled={loading || loadingImages}
+							disabled={loading || loadingImages || loadingEdit}
 						>
 							Huỷ
 						</Button>
@@ -160,10 +192,10 @@ export default function ModalAddNews({
 							<Button
 								htmlType="submit"
 								type="primary"
-								disabled={loading || loadingImages}
-								loading={loading || loadingImages}
+								disabled={loading || loadingImages || loadingEdit}
+								loading={loading || loadingImages || loadingEdit}
 							>
-								Tạo tin
+								{data?.id ? 'Chỉnh sửa' : 'Tạo tin'}
 							</Button>
 						</Form.Item>
 					</div>
@@ -173,7 +205,7 @@ export default function ModalAddNews({
 	);
 }
 
-const PreviewImages = ({
+export const PreviewImages = ({
 	urls,
 	loading,
 }: {
@@ -184,9 +216,6 @@ const PreviewImages = ({
 		<div className={styles.previewImages}>
 			{loading ? (
 				<>
-					<Skeleton.Button active />
-					<Skeleton.Button active />
-					<Skeleton.Button active />
 					<Skeleton.Button active />
 					<Skeleton.Button active />
 				</>
@@ -213,8 +242,8 @@ const PreviewImages = ({
 								src={url}
 								alt={`Preview ${index + 1}`}
 								style={{
-									width: '300px',
-									height: '300px',
+									width: '150px',
+									height: '150px',
 									objectFit: 'cover',
 									borderRadius: 12,
 								}}

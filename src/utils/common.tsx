@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from './firebase';
+import { message } from 'antd';
 
 export const uploadFileToFirebase = (file: any): Promise<string> => {
 	return new Promise((resolve, reject) => {
@@ -44,3 +45,21 @@ export const getMediaType = (url: any) => {
 		return 'unknown';
 	}
 };
+
+// Function to convert URLs into clickable links
+export function linkifyText(text: string): string {
+	const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+	// Sử dụng replace để thay thế URL bằng thẻ <a>
+	return text.replace(urlRegex, (url) => {
+		return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+	});
+}
+
+export function createFullLink(path: string) {
+	const fullLink = `${window.location.origin}${path}`;
+
+	navigator.clipboard.writeText(fullLink);
+
+	message.success('Sao chép đường dẫn thành công');
+}

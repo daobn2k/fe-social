@@ -10,6 +10,7 @@ export interface IComment {
 	deleted: number;
 	userName: string;
 	avatar: string;
+	totalLike?: number;
 }
 export interface ICreatePost {
 	idGroup?: number;
@@ -30,6 +31,23 @@ export const addPost = (data: ICreatePost) => {
 	const request = new BaseRequest();
 
 	return request.post(API_PATH.ADD_POST, data);
+};
+
+export const editPost = (data: ICreatePost) => {
+	const request = new BaseRequest();
+
+	return request.put(`/Post/EditPost`, data);
+};
+export const likePost = (params: { id: number }) => {
+	const request = new BaseRequest();
+
+	return request.put(`/Post/LikePost?id=${params.id}`);
+};
+
+export const likeComment = (params: { id?: number }) => {
+	const request = new BaseRequest();
+
+	return request.put(`/Comment/LikeComment?id=${params.id}`);
 };
 export const searchPost = (data: ISearchPost) => {
 	const request = new BaseRequest();
@@ -61,4 +79,10 @@ export const deleteComment = (id: number) => {
 	const request = new BaseRequest();
 
 	return request.delete(API_PATH.DELETE_COMMENT(id));
+};
+
+export const deletePost = (data: { idUser: number; idPost: number }) => {
+	const request = new BaseRequest();
+
+	return request.delete(`/Post/DeletePost/${data.idPost}`);
 };

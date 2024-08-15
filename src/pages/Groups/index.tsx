@@ -171,6 +171,7 @@ const Groups = () => {
 								key={key}
 								onRefreshData={onRefreshData}
 								loadingRefresh={loadingRefresh}
+								data={n}
 							/>
 						);
 					})}
