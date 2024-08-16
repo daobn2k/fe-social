@@ -53,8 +53,6 @@ export const searchPost = (data: ISearchPost) => {
 	const request = new BaseRequest();
 
 	return request.post(API_PATH.SEARCH_POST, {
-		pTotalRecordInPage: 1000,
-		pBeginRecord: 1,
 		...data,
 	});
 };
