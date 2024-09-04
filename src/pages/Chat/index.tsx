@@ -307,7 +307,7 @@ const News = () => {
 						messages?.length > 0 &&
 						messages.map((m: any, key: number) => {
 							const isOwner = m.idUserSend === user.id;
-							const isFriend = m.idUserRecieve === user.id;
+							const isFriend = m.idUserSend !== user.id;
 							return (
 								<ChatItemList
 									key={key}

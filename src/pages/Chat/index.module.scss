@@ -117,7 +117,7 @@
 
 .owner {
 	align-self: flex-end;
-	width: 50%;
+	width: 50% !important;
 
 	background-color: unset !important;
 
@@ -125,7 +125,7 @@
 }
 
 .friend {
-	width: 50%;
+	width: 50% !important;
 	background-color: #251f6e3b;
 }
 
