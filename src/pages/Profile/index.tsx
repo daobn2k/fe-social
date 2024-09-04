@@ -107,10 +107,7 @@ const Profile = () => {
 	const onSendMessage = async () => {
 		const result: any = await getZoomChat(+aUser.id);
 
-		console.log(result?.data);
-
-		if (!result?.data?.source) return;
-		const hasChat: any = result?.data?.source.find(
+		const hasChat: any = result?.data?.source?.find(
 			(s: any) => s.idPartner === user.id
 		);
 

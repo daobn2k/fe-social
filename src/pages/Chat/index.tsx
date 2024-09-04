@@ -162,7 +162,6 @@ const News = () => {
 	const onSendMessageToUser = async (u: any) => {
 		const result: any = dataZoom;
 
-		if (!result?.data?.source) return;
 		const hasChat: any = result?.data?.source.find(
 			(s: any) => s.idPartner === u.id
 		);

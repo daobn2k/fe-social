@@ -54,6 +54,8 @@ export const searchPost = (data: ISearchPost) => {
 
 	return request.post(API_PATH.SEARCH_POST, {
 		...data,
+		pTotalRecordInPage: 100,
+		page: 1,
 	});
 };
 
